@@ -3,6 +3,9 @@ import csv
 import re
 import subprocess
 
+sys.path.append("/Gam_Tools")
+from helper_tools import csv_compose
+
 
 # The Account_type class simply asks the user whether the user wants to use
 # Staff data or student data and returns the user input as a string.
