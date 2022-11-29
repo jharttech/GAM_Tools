@@ -1,5 +1,5 @@
 import subprocess
-from scripts import create_account
+from user_account_tools import create_account
 
 
 class Tool:
