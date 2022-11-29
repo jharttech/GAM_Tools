@@ -1,5 +1,6 @@
 import subprocess
 from user_account_tools import create_account
+from device_tools import clear_unit_space
 
 
 class Tool:
@@ -20,7 +21,8 @@ def main():
     tool_dict = {
         "1":"create_account",
         "2":"find_device_by_uuid",
-        "2":"Exit"
+        "3":"clear_unit_space",
+        "4":"Exit"
     }
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
     print("Welcome to the MG Create Account Tool\n")
@@ -30,8 +32,11 @@ def main():
     if str(tool) == "create_account":
         create_account.main()
     elif str(tool) == "find_device_by_uuid":
-        #PICK UP HERE
+        #FIXME
         ...
+    elif str(tool) == "clear_unit_space":
+        clear_unit_space.main()
+        
 
 
 if __name__ == "__main__":
