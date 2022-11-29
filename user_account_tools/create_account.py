@@ -4,8 +4,9 @@ import re
 import csv
 import datetime
 
-sys.path.append("/ChomebookCheckoutTool/scripts")
-import user_script
+sys.path.append("/Gam_Tools")
+from user_account_tools.helper_tools import user_script
+
 
 
 # The Setup Class creates the needed Directory and then creates an empyt file that will be needed
