@@ -5,7 +5,7 @@ import csv
 import datetime
 
 sys.path.append("/Gam_Tools")
-from user_account_tools.helper_tools import user_script
+from helper_tools import user_script
 
 
 
