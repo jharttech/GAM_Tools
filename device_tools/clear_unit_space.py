@@ -55,7 +55,6 @@ class Stage_CSV:
                             ]
                         ]
                         if ("Staff" in str(self.temp_row[3])):
-                            self.result = "FOUND"
                             print(self.result)
                             continue
                         else:
