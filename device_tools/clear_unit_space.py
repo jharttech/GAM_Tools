@@ -3,7 +3,7 @@ import subprocess
 import csv
 
 sys.path.append("/Gam_Tools")
-from helper_tools import csv_compose
+from helper_tools import csv_compose, device_data
 
 
 class Stage_CSV:
@@ -22,7 +22,7 @@ class Stage_CSV:
         self.o_filename = "disk_is_full.csv"
 
     def stage(self):
-        with open(f"needed_file/{self.i_filename}", mode="r") as self.csv_file_read:
+        with open(f"needed_files/{self.i_filename}", mode="r") as self.csv_file_read:
             self.csv_reader = csv.reader((line.replace('\0','') for line in self.csv_file_read), self.csv_file_read, delimiter=",")
             self.n_col = len(next(self.csv_reader))
             self.csv_file_read.seek(0)
@@ -42,10 +42,10 @@ class Stage_CSV:
                                 self.header_to_num.get("deviceId", "Error getting header number for deviceId")
                             ],
                             row[
-                                self.header_to_num.get("diskVolumeReports.0.volumeInfo.0.storageTotal", "Error getting header number for diskVolumeReports.0.volumeInfo.0.storageTotal")
+                                self.header_to_num.get("diskVolumeReports.0.volumeInfo.0.storageFree", "Error getting header number for diskVolumeReports.0.volumeInfo.0.storageFree")
                             ],
                             row[
-                                self.header_to_num.get("diskVolumeReports.0.volumeInfo.0.storageFree", "Error getting header number for diskVolumeReports.0.volumeInfo.0.storageFree")
+                                self.header_to_num.get("diskVolumeReports.0.volumeInfo.0.storageTotal", "Error getting header number for diskVolumeReports.0.volumeInfo.0.storageTotal")
                             ],
                             row[
                                 self.header_to_num.get("orgUnitPath", "Error geting header number for orgUnitPath")
@@ -59,9 +59,16 @@ class Stage_CSV:
                             print(self.result)
                             continue
                         else:
-                            self.lines.append(self.temp_row)
-                            #return self.result
+                            if (str(self.temp_row[1]) or str(self.temp_row[2])) == '':
+                                continue
+                            elif (int(self.temp_row[1]) / int(self.temp_row[2])) <= float(.20):
+                                self.temp_row.append(int(self.temp_row[1]) / int(self.temp_row[2]))
+                                self.lines.append(self.temp_row)
+                                #return self.result
+                            else:
+                                continue
                     except:
+                        input(f"{self.temp_row}")
                         sys.exit(f"Error getting needed fields for csv row")
         if len(self.lines) > 2:
             return [self.lines, self.o_filename]
@@ -70,6 +77,7 @@ class Stage_CSV:
 
 
 def main():
+    device_data.Full_Device_Data()
     stage_csv = Stage_CSV().stage()
     csv_compose.Compose(stage_csv)
     
