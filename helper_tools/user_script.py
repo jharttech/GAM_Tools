@@ -151,18 +151,6 @@ class Stage_csv:
                 sys.exit(f"Error: no {self.account_type} data to add. Exiting now...")
 
 
-# The Compose class simply composes a file that can then be moved or reused for further
-# Data manipulation
-class Compose:
-    def __init__(self, staged_data):
-        self.o_filename = staged_data[1]
-        self.lines = staged_data[0]
-        with open(f"needed_file/{self.o_filename}", mode="w") as self.csv_file:
-            for i in range(0, len(self.lines)):
-                self.full = csv.writer(self.csv_file, delimiter=",")
-                self.full.writerow(self.lines[i])
-
-
 # The Building_names class creates a list of building names and returns the list
 class Building_names:
     def __init__(self, staged_data):
@@ -308,7 +296,7 @@ def move_file(staged_data):
 def main():
     account_type = Account_type.get()
     staged = Stage_csv(account_type).stage()
-    Compose(staged)
+    csv_compose.Compose(staged)
     move_file(staged)
 
 
