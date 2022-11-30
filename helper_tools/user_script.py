@@ -52,12 +52,10 @@ class Stage_csv:
 
         # Set input file, output file, and notes variables based on the type of data being worked with
         if self.account_type == "staff":
-            print(f"made it to staff account type")
             self.i_filename = "full_staff.csv"
             self.o_filename = "fullStaff.csv"
             self.notes = "EMPLOYEE"
         elif self.account_type == "student":
-            print(f"Made it to student account type")
             self.i_filename = "full_student.csv"
             self.o_filename = "fullStudent.csv"
             self.notes = "Initial Import"
