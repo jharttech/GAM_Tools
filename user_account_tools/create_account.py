@@ -112,10 +112,14 @@ class Campus_groups:
 
     # The groups_dict method in production will poll GAM for the campus groups
     # Put the stdout into a file, then read the file to create the desired dictionary
+    with open(f"needed_files/groups", mode = "w") as write_file:
+            data_file = subprocess.Popen(["gam","print","orgs"], stdout=write_file)
+            data_file.wait()
+
     def groups_dict(self):
         self.group_dict = {}
         # Open the group_data file for reading
-        with open(f"needed_files/group_data.csv", mode="r") as self.csv_file_read:
+        with open(f"needed_files/group", mode="r") as self.csv_file_read:
             self.read_file = csv.reader(self.csv_file_read, delimiter=",")
             # Read the number of columns
             self.n_col = len(next(self.read_file))
