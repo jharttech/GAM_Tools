@@ -113,7 +113,7 @@ class Campus_groups:
     # The groups_dict method in production will poll GAM for the campus groups
     # Put the stdout into a file, then read the file to create the desired dictionary
     with open(f"needed_files/groups", mode = "w") as write_file:
-            data_file = subprocess.Popen(["gam","print","orgs"], stdout=write_file)
+            data_file = subprocess.Popen(["gam","print","groups"], stdout=write_file)
             data_file.wait()
 
     def groups_dict(self):
