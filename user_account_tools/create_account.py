@@ -5,7 +5,7 @@ import csv
 import datetime
 
 sys.path.append("/Gam_Tools")
-from helper_tools import user_script
+from user_account_tools.helper_tools import user_script
 
 
 
@@ -40,10 +40,14 @@ class Campus_OUs:
 
         self.org_unit_dict = {}
 
-        # This will need changed when in production, rather than just read from a file
-        # This will poll for the Org Units from GAM, then read the subprocess stdout
-        # And assign the results to the results file first
-        with open(f"needed_file/result.csv", mode="r") as self.csv_file_read:
+        # Query for the desired OU
+        with open(f"needed_files/org_units", mode = "w") as write_file:
+            data_file = subprocess.Popen(["gam","print","orgs"], stdout=write_file)
+            data_file.wait()
+
+        # Read the Org units file and sort out the ones based on the type of
+        # account being created
+        with open(f"needed_files/org_units", mode="r") as self.csv_file_read:
             self.read_file = csv.reader(self.csv_file_read, delimiter=",")
             # Read the number of columns
             self.n_col = len(next(self.read_file))
@@ -111,7 +115,7 @@ class Campus_groups:
     def groups_dict(self):
         self.group_dict = {}
         # Open the group_data file for reading
-        with open(f"needed_file/group_data.csv", mode="r") as self.csv_file_read:
+        with open(f"needed_files/group_data.csv", mode="r") as self.csv_file_read:
             self.read_file = csv.reader(self.csv_file_read, delimiter=",")
             # Read the number of columns
             self.n_col = len(next(self.read_file))
@@ -316,6 +320,7 @@ def main():
     # Clear the screen
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
     print("Welcome to the MG Create Account Tool\n")
+    data_check()
     # Call the Account_type class from the user_script module
     account_type = user_script.Account_type.get()
     # Run the Setup class
