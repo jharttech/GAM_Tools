@@ -4,8 +4,8 @@ import re
 import csv
 import datetime
 
-sys.path.append("/Gam_Tools")
-from user_account_tools.helper_tools import user_script
+sys.path.append("/GAM_Tools")
+from helper_tools import user_script
 
 
 
