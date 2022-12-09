@@ -2,8 +2,6 @@ import sys
 import csv
 import re
 import subprocess
-
-sys.path.append("/GAM_Tools")
 from helper_tools import csv_compose
 
 

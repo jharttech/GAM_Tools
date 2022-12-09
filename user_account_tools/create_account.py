@@ -3,8 +3,6 @@ import subprocess
 import re
 import csv
 import datetime
-
-sys.path.append("/GAM_Tools")
 from helper_tools import user_script
 
 
