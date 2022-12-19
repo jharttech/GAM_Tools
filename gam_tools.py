@@ -1,6 +1,6 @@
 import subprocess
 from user_account_tools import create_account
-from device_tools import clear_unit_space
+from device_tools import clear_unit_space, inactive_units
 
 
 class Tool:
@@ -22,6 +22,7 @@ def main():
         "1":"create_account",
         "2":"find_device_by_uuid",
         "3":"clear_unit_space",
+        "4":"find_inactive_units",
         "4":"Exit"
     }
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
@@ -36,6 +37,8 @@ def main():
         ...
     elif str(tool) == "clear_unit_space":
         clear_unit_space.main()
+    elif str(tool) == "find_inactive_units":
+        inactive_units.main()
         
 
 
