@@ -4,7 +4,7 @@ import re
 import csv
 import datetime
 
-sys.path.append("/Gam_Tools")
+#sys.path.append("/Gam_Tools")
 from helper_tools import user_script
 
 
@@ -17,7 +17,8 @@ class Setup:
         subprocess.Popen(["mkdir", "logs"], stdout=subprocess.DEVNULL)
         self.account_type = account_type
         # Assign the new file and path to a variable
-        n_file = f"{account_type}/{account_type}.txt"
+        #n_file = f"{account_type}/{account_type}.txt"
+        n_file = str(account_type) + "/" + str(account_type) + ".txt"
         # Create the empty file
         subprocess.Popen(["touch", n_file], stdout=subprocess.DEVNULL)
 
@@ -40,10 +41,11 @@ class Campus_OUs:
 
         self.org_unit_dict = {}
 
-        # This will need changed when in production, rather than just read from a file
-        # This will poll for the Org Units from GAM, then read the subprocess stdout
-        # And assign the results to the results file first
-        with open(f"needed_file/result.csv", mode="r") as self.csv_file_read:
+        with open("needed_files/org_units", mode = "w") as write_file:
+            data_file = subprocess.Popen(["gam","print","orgs"], stdout=write_file)
+            data_file.wait()
+
+        with open("needed_files/org_units", mode="r") as self.csv_file_read:
             self.read_file = csv.reader(self.csv_file_read, delimiter=",")
             # Read the number of columns
             self.n_col = len(next(self.read_file))
@@ -95,7 +97,7 @@ class Assign_OU:
             if str(choice) not in ou_dict:
                 # If user input was not in the numeric keys, prompt them to enter a number
                 # Between 1 and the length of the dictionary
-                print(f"Invalid entry, please try again! (Enter 1-{len(ou_dict)})")
+                print("Invalid entry, please try again! (Enter 1-" + len(ou_dict) + ")")
             else:
                 ou = ou_dict.get(choice)
                 return cls(ou)
@@ -111,7 +113,11 @@ class Campus_groups:
     def groups_dict(self):
         self.group_dict = {}
         # Open the group_data file for reading
-        with open(f"needed_file/group_data.csv", mode="r") as self.csv_file_read:
+        with open("needed_files/groups", mode = "w") as write_file:
+            data_file = subprocess.Popen(["gam","print","groups"], stdout=write_file)
+            data_file.wait()
+
+        with open("needed_files/groups", mode="r") as self.csv_file_read:
             self.read_file = csv.reader(self.csv_file_read, delimiter=",")
             # Read the number of columns
             self.n_col = len(next(self.read_file))
@@ -162,7 +168,7 @@ class Assign_groups:
         # Take user input of the keys for which groups are needed.
         ## NOTE strip out whitespace incase user inputs spaces and use regex to check input
         group_wanted = input(
-            f"""\nPlease enter the numbers of the groups
+            """\nPlease enter the numbers of the groups
 the user will need be a member of: (Comma seperated: ex. 1,2,3)\n"""
         )
         group_wanted = group_wanted.split(",")
@@ -177,7 +183,7 @@ class Add_to_group:
     def __init__(self, groups, account_type):
         self.groups = groups
         # Open up the needed file
-        with open(f"{account_type}/{account_type}.txt") as self.file:
+        with open(str(account_type) + "/" + str(account_type) + ".txt") as self.file:
             self.reader = csv.reader(self.file, delimiter=":")
             # Loop through each row
             for row in self.reader:
@@ -185,7 +191,7 @@ class Add_to_group:
                 for x in range(0, len(self.groups)):
                     try:
                         self.command = (
-                            f"gam update group {self.groups[x]} add user {row[0]}"
+                            "gam update group " + self.groups[x] + " add user " + row[0]
                         )
                         # Added the user on current row to the needed groups
                         self.run_gam = subprocess.Popen(
@@ -215,9 +221,9 @@ class Create_Account:
             # If an ampersand is found in the org unit, escape it
             self.wanted_ou = self.wanted_ou.replace("&", "\&")
         # Set the paramaters wanted for the sed command
-        self.sed_params = f"s,$,:{self.wanted_ou},"
-        self.temp_file = f"{self.account_type}/temp_{self.account_type}.txt"
-        self.awk_file = f"{self.account_type}/{self.account_type}.txt"
+        self.sed_params = "s,$,:" + self.wanted_ou + ","
+        self.temp_file = str(self.account_type) + "/" + "temp_" + str(self.account_type) + ".txt"
+        self.awk_file = str(self.account_type) + "/" + str(self.account_type) + ".txt"
         subprocess.Popen(["touch", self.temp_file], stdout=subprocess.PIPE)
         # Open the file with vim to add the desired account lines
         self.edit_file = subprocess.Popen(["vim", self.temp_file])
@@ -253,7 +259,7 @@ class Create_Account:
             self.awk_line = '{print "gam create user "$1" firstname "$2" lastname "$3" password "$4" gal off org \'"$5"\' && sleep 2"}'
         elif str(self.account_type) == "staff":
             # Set gal to true for staff so they DO show up in the directory when creating an email
-            self.awk_line = '{print "gam create user "$1" firstname "$2" lastname "$3" password "$4" gal on org \'"$5"\' && sleep2"}'
+            self.awk_line = '{print "gam create user "$1" firstname "$2" lastname "$3" password "$4" gal on org \'"$5"\' && sleep 2"}'
 
         # Set dry run command for user to preview the command
         self.dry_run = subprocess.Popen(
@@ -264,9 +270,9 @@ class Create_Account:
         print(self.gam_command)
 
         while True:
-            yn = input(f"Does the above command look correct? y/n ").lower()
+            yn = input("Does the above command look correct? y/n ").lower()
             if not re.search(r"^(y|n)$", yn):
-                print(f"Invalid response please enter 'y' or 'n'")
+                print("Invalid response please enter 'y' or 'n'")
             else:
                 break
 
@@ -295,10 +301,10 @@ class Create_Account:
 # Past account creations
 def log_file(account_type):
     account_type = str(account_type)
-    filepath = f"{account_type}/{account_type}.txt"
+    filepath = account_type + "/" + account_type + ".txt"
     x = datetime.datetime.now()
     log_file_name = (
-        f"logs/{account_type}-{x.year}{x.month}{x.day}{x.hour}{x.minute}{x.second}"
+        "logs/" + account_type + "-" + str(x.year) + str(x.month) + str(x.day) + str(x.hour) + str(x.minute) + str(x.second)
     )
     create_log = subprocess.Popen(
         ["cp", filepath, log_file_name], stdout=subprocess.PIPE
@@ -339,10 +345,10 @@ def main():
     while True:
         # Check if user wants to perform more actions and if so, restart this tool
         restart = input(
-            f"Account creations and group additions sucessfull. Would you like to create more accounts? y/n "
+            "Account creations and group additions sucessfull. Would you like to create more accounts? y/n "
         ).lower()
         if not re.search(r"^(y|n)$", restart):
-            print(f"Invalid response please enter 'y' or 'n'")
+            print("Invalid response please enter 'y' or 'n'")
         else:
             break
     if str(restart) == "y":

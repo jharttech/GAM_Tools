@@ -2,7 +2,7 @@ import sys
 import subprocess
 import csv
 
-sys.path.append("/Gam_Tools")
+#sys.path.append("/GAM_Tools")
 from helper_tools import csv_compose, device_data
 
 
@@ -22,7 +22,7 @@ class Stage_CSV:
         self.o_filename = "disk_is_full.csv"
 
     def stage(self):
-        with open(f"needed_files/{self.i_filename}", mode="r") as self.csv_file_read:
+        with open("needed_files/" + self.i_filename, mode="r") as self.csv_file_read:
             self.csv_reader = csv.reader((line.replace('\0','') for line in self.csv_file_read), self.csv_file_read, delimiter=",")
             self.n_col = len(next(self.csv_reader))
             self.csv_file_read.seek(0)
@@ -55,8 +55,7 @@ class Stage_CSV:
                             ]
                         ]
                         if ("Staff" in str(self.temp_row[3])):
-                            self.result = "FOUND"
-                            print(self.result)
+                            print("STAFF")
                             continue
                         else:
                             if (str(self.temp_row[1]) or str(self.temp_row[2])) == '':
@@ -64,16 +63,16 @@ class Stage_CSV:
                             elif (int(self.temp_row[1]) / int(self.temp_row[2])) <= float(.20):
                                 self.temp_row.append(int(self.temp_row[1]) / int(self.temp_row[2]))
                                 self.lines.append(self.temp_row)
+                                print(self.temp_row)
                                 #return self.result
                             else:
                                 continue
                     except:
-                        input(f"{self.temp_row}")
-                        sys.exit(f"Error getting needed fields for csv row")
+                        sys.exit("Error getting needed fields for csv row")
         if len(self.lines) > 2:
             return [self.lines, self.o_filename]
         else:
-            sys.exit(f"Error: no data to stage!")
+            sys.exit("Error: no data to stage!")
 
 
 def main():

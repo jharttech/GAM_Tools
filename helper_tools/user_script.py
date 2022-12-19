@@ -3,7 +3,6 @@ import csv
 import re
 import subprocess
 
-sys.path.append("/Gam_Tools")
 from helper_tools import csv_compose
 
 
@@ -28,7 +27,7 @@ class Account_type:
             )
             # Use regex to sanitize user input for validation
             if not re.search(r"^([1-3])$", account):
-                print(f"Please enter 1, 2, or 3")
+                print("Please enter 1, 2, or 3")
             else:
                 return cls(account)
 
@@ -52,12 +51,10 @@ class Stage_csv:
 
         # Set input file, output file, and notes variables based on the type of data being worked with
         if self.account_type == "staff":
-            print(f"made it to staff account type")
             self.i_filename = "full_staff.csv"
             self.o_filename = "fullStaff.csv"
             self.notes = "EMPLOYEE"
         elif self.account_type == "student":
-            print(f"Made it to student account type")
             self.i_filename = "full_student.csv"
             self.o_filename = "fullStudent.csv"
             self.notes = "Initial Import"
@@ -69,7 +66,7 @@ class Stage_csv:
     def stage(
         self,
     ):
-        with open(f"needed_file/{self.i_filename}", mode="r") as self.csv_file:
+        with open("needed_file/" + self.i_filename, mode="r") as self.csv_file:
             self.csv_reader = csv.reader(self.csv_file, delimiter=",")
             self.n_col = len(next(self.csv_reader))
             self.csv_file.seek(0)
@@ -110,7 +107,7 @@ class Stage_csv:
                         self.username = self.username[0]
                     except:
                         sys.exit(
-                            f"Error with primaryEmail field, please check the 'needed_file/{self.i_filename}'"
+                            "Error with primaryEmail field, please check the 'needed_file/" + self.i_filename + "'"
                         )
                     try:
                         # Get each value from each desired column using the column name as the key,
@@ -145,12 +142,12 @@ class Stage_csv:
                         ]
                         self.lines.append(self.temp_row)
                     except:
-                        sys.exit(f"Error getting needed fields for csv row")
+                        sys.exit("Error getting needed fields for csv row")
 
             if len(self.lines) > 2:
                 return [self.lines, self.o_filename, self.account_type]
             else:
-                sys.exit(f"Error: no {self.account_type} data to add. Exiting now...")
+                sys.exit("Error: no " + self.account_type +  " data to add. Exiting now...")
 
 
 # The Compose class simply composes a file that can then be moved or reused for further
@@ -159,7 +156,7 @@ class Compose:
     def __init__(self, staged_data):
         self.o_filename = staged_data[1]
         self.lines = staged_data[0]
-        with open(f"needed_file/{self.o_filename}", mode="w") as self.csv_file:
+        with open("needed_file/" + self.o_filename, mode="w") as self.csv_file:
             for i in range(0, len(self.lines)):
                 self.full = csv.writer(self.csv_file, delimiter=",")
                 self.full.writerow(self.lines[i])
@@ -176,7 +173,7 @@ class Building_names:
         # self.buildings(self,staged_data[2],staged_data[1])
 
     def buildings(self):
-        with open(f"needed_file/{self.o_filename}", mode="r") as self.csv_file:
+        with open("needed_file/" + self.o_filename, mode="r") as self.csv_file:
             self.csv_reader = csv.reader(self.csv_file, delimiter=",")
             self.line_count = 0
             self.n_col = len(next(self.csv_reader))
@@ -184,7 +181,8 @@ class Building_names:
             for row in self.csv_reader:
                 if self.line_count == 0:
                     for x in range(0, self.n_col):
-                        if (column_name := str(row[x])) == "Location":
+                        if (str(row[x])) == "Location":
+                            column_name = str(row[x])
                             self.num = x
                             self.line_count += 1
                 else:
@@ -218,7 +216,7 @@ class Building:
             for l in range(len(buildings)):
                 print(buildings[l])
             building = input(
-                f"Please enter the building of data wanted: "
+                "Please enter the building of data wanted: "
             )
             if building not in buildings:
                 print("Invalid Building")
@@ -235,7 +233,7 @@ class Sort_students:
 
     def sort(self):
         # Open the needed csv in read mode
-        with open(f"{self.i_filename}", mode="r") as self.csv_file_read:
+        with open(self.i_filename, mode="r") as self.csv_file_read:
             self.csv_reader = csv.reader(self.csv_file_read, delimiter=",")
             self.line_count = 0
             self.lines = []
@@ -247,7 +245,8 @@ class Sort_students:
                 if self.line_count == 0:
                     for x in range(0, self.n_cols):
                         # Keep track of what column has the header of Location
-                        if (column_name := str(row[x])) == "Location":
+                        if (str(row[x])) == "Location":
+                            column_name = str(row[x])
                             self.num = x
                     # Append the header row to the lines list
                     self.lines.append(row)
@@ -263,7 +262,7 @@ class Sort_students:
                 else:
                     continue
         # Write the data to the desired location and file
-        with open(f"student/{self.building}.csv", mode="w") as self.csv_file_write:
+        with open("student/" + self.building + ".csv", mode="w") as self.csv_file_write:
             for i in range(0, len(self.lines)):
                 self.o_file = csv.writer(self.csv_file_write, delimiter=",")
                 self.o_file.writerow(self.lines[i])
@@ -271,14 +270,14 @@ class Sort_students:
 
 # The move_file function moves the created files to where they need to go
 def move_file(staged_data):
-    filename = f"needed_file/{staged_data[1]}"
-    destination = f"{staged_data[2]}/{staged_data[1]}"
+    filename = "needed_file/" + staged_data[1]
+    destination = staged_data[2] + "/" + staged_data[1]
 
     # Nested function to reduce reduntant code
     def moved():
         # Move the wanted file to its final destination
         subprocess.Popen(["mv", filename, destination], stdout=subprocess.PIPE)
-        return f"All {staged_data[2]} has been compiled into ..ChromebookCheckoutTool/{destination}"
+        return "All " + staged_data[2] + " has been compiled into ..ChromebookCheckoutTool/" + destination
 
     if staged_data[2] == "staff":
         # Move the staff data file to its destination
@@ -294,7 +293,7 @@ def move_file(staged_data):
             # Users desired building
             Sort_students(building, filename).sort()
             print(
-                f"All {staged_data[2]} in {building} has been compiled into ..ChromebookCheckoutTool/{staged_data[2]}/{building}.csv"
+                "All " +  staged_data[2] + " in " + building + " has been compiled into ..ChromebookCheckoutTool/" + staged_data[2] + "/" + building + ".csv"
             )
         else:
             # If user wanted student data from ALL buildings then do not sort the data, instead
@@ -302,7 +301,7 @@ def move_file(staged_data):
             print(moved())
     else:
         sys.exit(
-            f"No Data to work with or move, please check original data source needed_file/{staged_data[1]}"
+            "No Data to work with or move, please check original data source needed_file/" + staged_data[1]
         )
 
 
