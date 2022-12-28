@@ -1,6 +1,6 @@
 import subprocess
 from user_account_tools import create_account
-from device_tools import clear_unit_space, inactive_units
+from device_tools import find_units_low_on_space, inactive_units
 
 
 class Tool:
@@ -36,7 +36,7 @@ def main():
         # FIXME
         ...
     elif str(tool) == "clear_unit_space":
-        clear_unit_space.main()
+        find_units_low_on_space.main()
     elif str(tool) == "find_inactive_units":
         inactive_units.main()
 
