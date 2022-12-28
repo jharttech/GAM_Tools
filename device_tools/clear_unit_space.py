@@ -1,8 +1,6 @@
 import sys
 import subprocess
 import csv
-
-#sys.path.append("/GAM_Tools")
 from helper_tools import csv_compose, device_data
 
 
@@ -18,8 +16,8 @@ class Stage_CSV:
 
         self.header_to_num = {}
         self.lines = []
-        self.i_filename = "full_devices.csv"
-        self.o_filename = "disk_is_full.csv"
+        self.i_filename = "full_list_devices.csv"
+        self.o_filename = "disk_space_is_almost_full.csv"
 
     def stage(self):
         with open("needed_files/" + self.i_filename, mode="r") as self.csv_file_read:
