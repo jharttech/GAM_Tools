@@ -3,8 +3,6 @@ import subprocess
 import re
 import csv
 import datetime
-
-# sys.path.append("/Gam_Tools")
 from helper_tools import user_script
 
 
@@ -16,8 +14,7 @@ class Setup:
         subprocess.Popen(["mkdir", "logs"], stdout=subprocess.DEVNULL)
         self.account_type = account_type
         # Assign the new file and path to a variable
-        # n_file = f"{account_type}/{account_type}.txt"
-        n_file = str(account_type) + "/" + str(account_type) + ".txt"
+        n_file = f"{account_type}/{account_type}.txt"
         # Create the empty file
         subprocess.Popen(["touch", n_file], stdout=subprocess.DEVNULL)
 
