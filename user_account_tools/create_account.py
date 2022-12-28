@@ -3,6 +3,8 @@ import subprocess
 import re
 import csv
 import datetime
+
+#sys.path.append("/Gam_Tools")
 from helper_tools import user_script
 
 
@@ -15,7 +17,8 @@ class Setup:
         subprocess.Popen(["mkdir", "logs"], stdout=subprocess.DEVNULL)
         self.account_type = account_type
         # Assign the new file and path to a variable
-        n_file = f"{account_type}/{account_type}.txt"
+        #n_file = f"{account_type}/{account_type}.txt"
+        n_file = str(account_type) + "/" + str(account_type) + ".txt"
         # Create the empty file
         subprocess.Popen(["touch", n_file], stdout=subprocess.DEVNULL)
 
@@ -38,13 +41,10 @@ class Campus_OUs:
 
         self.org_unit_dict = {}
 
-        # Query for the desired OU
         with open(f"needed_files/org_units", mode = "w") as write_file:
             data_file = subprocess.Popen(["gam","print","orgs"], stdout=write_file)
             data_file.wait()
 
-        # Read the Org units file and sort out the ones based on the type of
-        # account being created
         with open(f"needed_files/org_units", mode="r") as self.csv_file_read:
             self.read_file = csv.reader(self.csv_file_read, delimiter=",")
             # Read the number of columns
@@ -92,7 +92,7 @@ class Assign_OU:
     def get(cls, ou_dict):
         # Create a loop to help with invalid inputs
         while True:
-            choice = input("Please select the desired Org Unit: ")
+            choice = input(f"Please select the desired Org Unit: ")
             # Check to see if the input matches any of the keys
             if str(choice) not in ou_dict:
                 # If user input was not in the numeric keys, prompt them to enter a number
@@ -110,14 +110,14 @@ class Campus_groups:
 
     # The groups_dict method in production will poll GAM for the campus groups
     # Put the stdout into a file, then read the file to create the desired dictionary
-    with open(f"needed_files/groups", mode = "w") as write_file:
-            data_file = subprocess.Popen(["gam","print","groups"], stdout=write_file)
-            data_file.wait()
-
     def groups_dict(self):
         self.group_dict = {}
         # Open the group_data file for reading
-        with open(f"needed_files/group", mode="r") as self.csv_file_read:
+        with open(f"needed_files/groups", mode = "w") as write_file:
+            data_file = subprocess.Popen(["gam","print","groups"], stdout=write_file)
+            data_file.wait()
+
+        with open(f"needed_files/groups", mode="r") as self.csv_file_read:
             self.read_file = csv.reader(self.csv_file_read, delimiter=",")
             # Read the number of columns
             self.n_col = len(next(self.read_file))
@@ -183,7 +183,7 @@ class Add_to_group:
     def __init__(self, groups, account_type):
         self.groups = groups
         # Open up the needed file
-        with open(f"{account_type}/{account_type}.txt") as self.file:
+        with open(f"{str(account_type)}/{str(account_type)}.txt") as self.file:
             self.reader = csv.reader(self.file, delimiter=":")
             # Loop through each row
             for row in self.reader:
@@ -222,8 +222,8 @@ class Create_Account:
             self.wanted_ou = self.wanted_ou.replace("&", "\&")
         # Set the paramaters wanted for the sed command
         self.sed_params = f"s,$,:{self.wanted_ou},"
-        self.temp_file = f"{self.account_type}/temp_{self.account_type}.txt"
-        self.awk_file = f"{self.account_type}/{self.account_type}.txt"
+        self.temp_file = f"{str(self.account_type)}/temp_{str(self.account_type)}.txt"
+        self.awk_file = f"{str(self.account_type)}/{str(self.account_type)}.txt"
         subprocess.Popen(["touch", self.temp_file], stdout=subprocess.PIPE)
         # Open the file with vim to add the desired account lines
         self.edit_file = subprocess.Popen(["vim", self.temp_file])
@@ -259,7 +259,7 @@ class Create_Account:
             self.awk_line = '{print "gam create user "$1" firstname "$2" lastname "$3" password "$4" gal off org \'"$5"\' && sleep 2"}'
         elif str(self.account_type) == "staff":
             # Set gal to true for staff so they DO show up in the directory when creating an email
-            self.awk_line = '{print "gam create user "$1" firstname "$2" lastname "$3" password "$4" gal on org \'"$5"\' && sleep2"}'
+            self.awk_line = '{print "gam create user "$1" firstname "$2" lastname "$3" password "$4" gal on org \'"$5"\' && sleep 2"}'
 
         # Set dry run command for user to preview the command
         self.dry_run = subprocess.Popen(
@@ -304,7 +304,7 @@ def log_file(account_type):
     filepath = f"{account_type}/{account_type}.txt"
     x = datetime.datetime.now()
     log_file_name = (
-        f"logs/{account_type}-{x.year}{x.month}{x.day}{x.hour}{x.minute}{x.second}"
+        f"logs/{account_type}-{str(x.year)}{str(x.month)}{str(x.day)}{str(x.hour)}{str(x.minute)}{str(x.second)}"
     )
     create_log = subprocess.Popen(
         ["cp", filepath, log_file_name], stdout=subprocess.PIPE
@@ -315,14 +315,16 @@ def log_file(account_type):
 # The dict_print function simply prints dictionaries in a nice format
 def dict_print(data):
     print("\n")
-    [print(key, ":", value) for key, value in data.items()]
+    data_list = list(map(int,data))
+    data_list = sorted(data_list)
+    for i in range(0,len(data)):
+        print(f"{str(data_list[i])} : {data.get(str(data_list[i]))}")
 
 
 def main():
     # Clear the screen
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
-    print("Welcome to the MG Create Account Tool\n")
-    data_check()
+    print(f"Welcome to the MG Create Account Tool\n")
     # Call the Account_type class from the user_script module
     account_type = user_script.Account_type.get()
     # Run the Setup class
