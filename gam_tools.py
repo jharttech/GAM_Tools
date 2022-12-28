@@ -23,7 +23,7 @@ def main():
         "2": "find_device_by_uuid",
         "3": "clear_unit_space",
         "4": "find_inactive_units",
-        "4": "Exit",
+        "5": "Exit",
     }
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
     print("Welcome to the MG Create Account Tool\n")
