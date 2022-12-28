@@ -315,7 +315,10 @@ def log_file(account_type):
 # The dict_print function simply prints dictionaries in a nice format
 def dict_print(data):
     print("\n")
-    [print(key, ":", value) for key, value in data.items()]
+    data_list = list(map(int,data))
+    data_list = sorted(data_list)
+    for i in range(0,len(data)):
+        print(str(data_list[i]) + " : " + data.get(str(data_list[i])))
 
 
 def main():
