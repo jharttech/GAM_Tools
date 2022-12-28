@@ -20,8 +20,8 @@ class Tool:
 def main():
     tool_dict = {
         "1":"create_account",
-        "2":"find_device_by_uuid",
-        "3":"clear_unit_space",
+        "2":"find_device_info_by_uuid",
+        "3":"find_units_low_on_space",
         "4":"find_inactive_units",
         "5":"Exit"
     }
@@ -32,10 +32,10 @@ def main():
     # Change to case in the future since case switch exists Python >= 3.10
     if str(tool) == "create_account":
         create_account.main()
-    elif str(tool) == "find_device_by_uuid":
+    elif str(tool) == "find_device_info_by_uuid":
         #FIXME
         ...
-    elif str(tool) == "clear_unit_space":
+    elif str(tool) == "find_units_low_on_space":
         find_units_low_on_space.main()
     elif str(tool) == "find_inactive_units":
         inactive_units.main()
