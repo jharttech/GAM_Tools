@@ -4,9 +4,8 @@ import re
 import csv
 import datetime
 
-#sys.path.append("/Gam_Tools")
+# sys.path.append("/Gam_Tools")
 from helper_tools import user_script
-
 
 
 # The Setup Class creates the needed Directory and then creates an empyt file that will be needed
@@ -17,7 +16,7 @@ class Setup:
         subprocess.Popen(["mkdir", "logs"], stdout=subprocess.DEVNULL)
         self.account_type = account_type
         # Assign the new file and path to a variable
-        #n_file = f"{account_type}/{account_type}.txt"
+        # n_file = f"{account_type}/{account_type}.txt"
         n_file = str(account_type) + "/" + str(account_type) + ".txt"
         # Create the empty file
         subprocess.Popen(["touch", n_file], stdout=subprocess.DEVNULL)
@@ -41,8 +40,8 @@ class Campus_OUs:
 
         self.org_unit_dict = {}
 
-        with open(f"needed_files/org_units", mode = "w") as write_file:
-            data_file = subprocess.Popen(["gam","print","orgs"], stdout=write_file)
+        with open(f"needed_files/org_units", mode="w") as write_file:
+            data_file = subprocess.Popen(["gam", "print", "orgs"], stdout=write_file)
             data_file.wait()
 
         with open(f"needed_files/org_units", mode="r") as self.csv_file_read:
@@ -113,8 +112,8 @@ class Campus_groups:
     def groups_dict(self):
         self.group_dict = {}
         # Open the group_data file for reading
-        with open(f"needed_files/groups", mode = "w") as write_file:
-            data_file = subprocess.Popen(["gam","print","groups"], stdout=write_file)
+        with open(f"needed_files/groups", mode="w") as write_file:
+            data_file = subprocess.Popen(["gam", "print", "groups"], stdout=write_file)
             data_file.wait()
 
         with open(f"needed_files/groups", mode="r") as self.csv_file_read:
@@ -303,9 +302,7 @@ def log_file(account_type):
     account_type = str(account_type)
     filepath = f"{account_type}/{account_type}.txt"
     x = datetime.datetime.now()
-    log_file_name = (
-        f"logs/{account_type}-{str(x.year)}{str(x.month)}{str(x.day)}{str(x.hour)}{str(x.minute)}{str(x.second)}"
-    )
+    log_file_name = f"logs/{account_type}-{str(x.year)}{str(x.month)}{str(x.day)}{str(x.hour)}{str(x.minute)}{str(x.second)}"
     create_log = subprocess.Popen(
         ["cp", filepath, log_file_name], stdout=subprocess.PIPE
     )
@@ -315,9 +312,9 @@ def log_file(account_type):
 # The dict_print function simply prints dictionaries in a nice format
 def dict_print(data):
     print("\n")
-    data_list = list(map(int,data))
+    data_list = list(map(int, data))
     data_list = sorted(data_list)
-    for i in range(0,len(data)):
+    for i in range(0, len(data)):
         print(f"{str(data_list[i])} : {data.get(str(data_list[i]))}")
 
 
