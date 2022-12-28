@@ -6,10 +6,10 @@ from device_tools import clear_unit_space, inactive_units
 class Tool:
     def __init__(self, tool):
         self.tool = tool
-        
+
     def __str__(self):
         return f"{self.tool}"
-        
+
     @classmethod
     def get(cls, tool_dict):
         dict_num = input("\nWhat tool would you like to utilize?\n")
@@ -19,11 +19,11 @@ class Tool:
 
 def main():
     tool_dict = {
-        "1":"create_account",
-        "2":"find_device_by_uuid",
-        "3":"clear_unit_space",
-        "4":"find_inactive_units",
-        "4":"Exit"
+        "1": "create_account",
+        "2": "find_device_by_uuid",
+        "3": "clear_unit_space",
+        "4": "find_inactive_units",
+        "4": "Exit",
     }
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
     print("Welcome to the MG Create Account Tool\n")
@@ -33,13 +33,12 @@ def main():
     if str(tool) == "create_account":
         create_account.main()
     elif str(tool) == "find_device_by_uuid":
-        #FIXME
+        # FIXME
         ...
     elif str(tool) == "clear_unit_space":
         clear_unit_space.main()
     elif str(tool) == "find_inactive_units":
         inactive_units.main()
-        
 
 
 if __name__ == "__main__":
