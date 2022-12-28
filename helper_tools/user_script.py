@@ -83,7 +83,7 @@ class Stage_csv:
 
             # Loop over each row in the input file
             for row in self.csv_reader:
-                # If it is the first row then gather the column names and put them in a 
+                # If it is the first row then gather the column names and put them in a
                 # Dictionary that stores the column name as the key and the column number as the value
                 if self.line_count == 0:
                     for x in range(0, self.n_col):
@@ -201,9 +201,7 @@ class Building:
         while True:
             for l in range(len(buildings)):
                 print(buildings[l])
-            building = input(
-                f"Please enter the building of data wanted: "
-            )
+            building = input(f"Please enter the building of data wanted: ")
             if building not in buildings:
                 print("Invalid Building")
             else:
@@ -238,7 +236,9 @@ class Sort_students:
                     self.line_count += 1
                 # If the row is not the header and its building is the desired building then
                 # Start logic block
-                elif (self.line_count != 0) and (row[self.num].__contains__(str(self.building))):
+                elif (self.line_count != 0) and (
+                    row[self.num].__contains__(str(self.building))
+                ):
                     self.temp_building = row[self.num].split("/")
                     self.temp_building = self.temp_building[len(self.temp_building) - 1]
                     # Make sure the row does coincide with the desired building
