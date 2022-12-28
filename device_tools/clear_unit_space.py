@@ -11,7 +11,7 @@ class Stage_CSV:
             "diskVolumeReports.0.volumeInfo.0.storageFree",
             "diskVolumeReports.0.volumeInfo.0.storageTotal",
             "orgUnitPath",
-            "serialNumber"
+            "serialNumber",
         ]
 
         self.header_to_num = {}
@@ -21,14 +21,18 @@ class Stage_CSV:
 
     def stage(self):
         with open(f"needed_files/{self.i_filename}", mode="r") as self.csv_file_read:
-            self.csv_reader = csv.reader((line.replace('\0','') for line in self.csv_file_read), self.csv_file_read, delimiter=",")
+            self.csv_reader = csv.reader(
+                (line.replace("\0", "") for line in self.csv_file_read),
+                self.csv_file_read,
+                delimiter=",",
+            )
             self.n_col = len(next(self.csv_reader))
             self.csv_file_read.seek(0)
             self.line_count = 0
 
             for row in self.csv_reader:
                 if self.line_count == 0:
-                    for x in range(0,self.n_col):
+                    for x in range(0, self.n_col):
                         self.col_name = str(row[x])
                         if self.col_name in self.g_headers:
                             self.header_to_num.update({self.col_name: x})
@@ -37,31 +41,49 @@ class Stage_CSV:
                     try:
                         self.temp_row = [
                             row[
-                                self.header_to_num.get("deviceId", "Error getting header number for deviceId")
+                                self.header_to_num.get(
+                                    "deviceId",
+                                    "Error getting header number for deviceId",
+                                )
                             ],
                             row[
-                                self.header_to_num.get("diskVolumeReports.0.volumeInfo.0.storageFree", "Error getting header number for diskVolumeReports.0.volumeInfo.0.storageFree")
+                                self.header_to_num.get(
+                                    "diskVolumeReports.0.volumeInfo.0.storageFree",
+                                    "Error getting header number for diskVolumeReports.0.volumeInfo.0.storageFree",
+                                )
                             ],
                             row[
-                                self.header_to_num.get("diskVolumeReports.0.volumeInfo.0.storageTotal", "Error getting header number for diskVolumeReports.0.volumeInfo.0.storageTotal")
+                                self.header_to_num.get(
+                                    "diskVolumeReports.0.volumeInfo.0.storageTotal",
+                                    "Error getting header number for diskVolumeReports.0.volumeInfo.0.storageTotal",
+                                )
                             ],
                             row[
-                                self.header_to_num.get("orgUnitPath", "Error geting header number for orgUnitPath")
+                                self.header_to_num.get(
+                                    "orgUnitPath",
+                                    "Error geting header number for orgUnitPath",
+                                )
                             ],
                             row[
-                                self.header_to_num.get("serialNumber", "Error getting header number")
-                            ]
+                                self.header_to_num.get(
+                                    "serialNumber", "Error getting header number"
+                                )
+                            ],
                         ]
-                        if ("Staff" in str(self.temp_row[3])):
+                        if "Staff" in str(self.temp_row[3]):
                             print(self.result)
                             continue
                         else:
-                            if (str(self.temp_row[1]) or str(self.temp_row[2])) == '':
+                            if (str(self.temp_row[1]) or str(self.temp_row[2])) == "":
                                 continue
-                            elif (int(self.temp_row[1]) / int(self.temp_row[2])) <= float(.20):
-                                self.temp_row.append(int(self.temp_row[1]) / int(self.temp_row[2]))
+                            elif (
+                                int(self.temp_row[1]) / int(self.temp_row[2])
+                            ) <= float(0.20):
+                                self.temp_row.append(
+                                    int(self.temp_row[1]) / int(self.temp_row[2])
+                                )
                                 self.lines.append(self.temp_row)
-                                #return self.result
+                                # return self.result
                             else:
                                 continue
                     except:
@@ -80,8 +102,7 @@ def clear_space(i_filename):
         n_col = len(next(csv_reader))
         csv_read_file.seek(0)
         for row in csv_reader:
-            remove_space = subprocess.Popen(["gam",""])
-                
+            remove_space = subprocess.Popen(["gam", ""])
 
 
 def main():
@@ -89,7 +110,6 @@ def main():
     stage_csv = Stage_CSV().stage()
     csv_compose.Compose(stage_csv)
     clear_space(stage_csv[1])
-    
 
 
 if __name__ == "__main__":
