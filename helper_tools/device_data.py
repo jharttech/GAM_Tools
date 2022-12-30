@@ -5,7 +5,7 @@ import datetime
 
 class Full_Device_Data:
     def __init__(self):
-        self.filename = "needed_files/full_devices.csv"
+        self.filename = "needed_files/full_list_devices.csv"
         subprocess.Popen(["touch",self.filename], stdout=subprocess.PIPE)
 
         self.write_data(self.filename)
