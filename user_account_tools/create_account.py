@@ -95,7 +95,7 @@ class Assign_OU:
             if str(choice) not in ou_dict:
                 # If user input was not in the numeric keys, prompt them to enter a number
                 # Between 1 and the length of the dictionary
-                print("Invalid entry, please try again! (Enter 1-" + len(ou_dict) + ")")
+                print("Invalid entry, please try again! (Enter 1-" + str(len(ou_dict)) + ")")
             else:
                 ou = ou_dict.get(choice)
                 return cls(ou)
