@@ -3,7 +3,7 @@ import subprocess
 import re
 import csv
 import datetime
-from helper_tools import user_script
+from helper_tools import user_data, misc
 
 
 # The Setup Class creates the needed Directory and then creates an empyt file that will be needed
@@ -320,20 +320,20 @@ def main():
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
     print(f"Welcome to the MG Create Account Tool\n")
     # Call the Account_type class from the user_script module
-    account_type = user_script.Account_type.get()
+    account_type = user_data.Account_type.get()
     # Run the Setup class
     Setup(account_type)
     # Run the Campus_OUs class to get the OUs available in the campus and save the return to variable
     campus_OUs = Campus_OUs().ou_dict(account_type)
     # Call the dict_print function to print the desired dictionary
-    dict_print(campus_OUs)
+    misc.Dict_Print(campus_OUs)
     # Run the Assign_OU class and assign the return to variable
     OU = Assign_OU(None).get(campus_OUs)
     # Run the Create_Account class to create the account
     Create_Account(account_type, OU)
     # Run the Campus_groups class to get available groups in the campus
     campus_groups = Campus_groups().groups_dict()
-    dict_print(campus_groups)
+    misc.Dict_Print(campus_groups)
     # Run the Assign groups class to assign the user to the desired groups
     Assign_groups.get(campus_groups, account_type)
     # Write the log file
