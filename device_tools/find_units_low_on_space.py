@@ -95,21 +95,10 @@ class Stage_CSV:
             sys.exit(f"Error: no data to stage!")
 
 
-def clear_space(i_filename):
-    with open(i_filename, mode="r") as csv_read_file:
-        csv_reader = csv.reader(csv_read_file, delimiter=",")
-        line_count = 0
-        n_col = len(next(csv_reader))
-        csv_read_file.seek(0)
-        for row in csv_reader:
-            remove_space = subprocess.Popen(["gam", ""])
-
-
 def main():
     device_data.Full_Device_Data()
     stage_csv = Stage_CSV().stage()
     misc.Compose(stage_csv)
-    clear_space(stage_csv[1])
 
 
 if __name__ == "__main__":
