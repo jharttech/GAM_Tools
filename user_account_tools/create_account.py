@@ -3,9 +3,7 @@ import subprocess
 import re
 import csv
 import datetime
-
-#sys.path.append("/Gam_Tools")
-from helper_tools import user_data
+from helper_tools import user_data, misc
 
 
 
@@ -332,14 +330,14 @@ def main():
     # Run the Campus_OUs class to get the OUs available in the campus and save the return to variable
     campus_OUs = Campus_OUs().ou_dict(account_type)
     # Call the dict_print function to print the desired dictionary
-    dict_print(campus_OUs)
+    misc.Dict_Print(campus_OUs)
     # Run the Assign_OU class and assign the return to variable
     OU = Assign_OU(None).get(campus_OUs)
     # Run the Create_Account class to create the account
     Create_Account(account_type, OU)
     # Run the Campus_groups class to get available groups in the campus
     campus_groups = Campus_groups().groups_dict()
-    dict_print(campus_groups)
+    misc.Dict_Print(campus_groups)
     # Run the Assign groups class to assign the user to the desired groups
     Assign_groups.get(campus_groups, account_type)
     # Write the log file
