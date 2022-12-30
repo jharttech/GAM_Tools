@@ -2,7 +2,7 @@ import sys
 import subprocess
 import csv
 from datetime import date
-from helper_tools import csv_compose
+from helper_tools import misc
 
 
 # Get the current date in ISO format then split it on the hyphens
@@ -124,7 +124,7 @@ class Stage_CSV:
 # Define the main function
 def main():
     staged_csv = Stage_CSV().stage()
-    csv_compose.Compose(staged_csv)
+    misc.Compose(staged_csv)
 
 
 if __name__ == "__main__":
