@@ -1,7 +1,7 @@
 import sys
 import subprocess
 import csv
-from helper_tools import csv_compose, device_data
+from helper_tools import misc, device_data
 
 
 class Stage_CSV:
@@ -108,7 +108,7 @@ def clear_space(i_filename):
 def main():
     device_data.Full_Device_Data()
     stage_csv = Stage_CSV().stage()
-    csv_compose.Compose(stage_csv)
+    misc.Compose(stage_csv)
     clear_space(stage_csv[1])
 
 
