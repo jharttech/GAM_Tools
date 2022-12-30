@@ -5,7 +5,7 @@ import csv
 import datetime
 
 #sys.path.append("/Gam_Tools")
-from helper_tools import user_script
+from helper_tools import user_data
 
 
 
@@ -326,7 +326,7 @@ def main():
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
     print("Welcome to the MG Create Account Tool\n")
     # Call the Account_type class from the user_script module
-    account_type = user_script.Account_type.get()
+    account_type = user_data.Account_type.get()
     # Run the Setup class
     Setup(account_type)
     # Run the Campus_OUs class to get the OUs available in the campus and save the return to variable
