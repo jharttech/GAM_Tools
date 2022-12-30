@@ -2,7 +2,7 @@ import sys
 import csv
 import re
 import subprocess
-from helper_tools import csv_compose
+from helper_tools import misc
 
 
 # The Account_type class simply asks the user whether the user wants to use
@@ -294,7 +294,7 @@ def move_file(staged_data):
 def main():
     account_type = Account_type.get()
     staged = Stage_csv(account_type).stage()
-    csv_compose.Compose(staged)
+    misc.Compose(staged)
     move_file(staged)
 
 
