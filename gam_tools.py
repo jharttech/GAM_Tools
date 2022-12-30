@@ -1,5 +1,6 @@
 import subprocess
 from user_account_tools import create_account
+from helper_tools import misc
 from device_tools import find_units_low_on_space, inactive_units
 
 
@@ -27,7 +28,7 @@ def main():
     }
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
     print("Welcome to the MG Create Account Tool\n")
-    create_account.dict_print(tool_dict)
+    misc.Dict_Print(tool_dict)
     tool = Tool.get(tool_dict)
     # Change to case in the future since case switch exists Python >= 3.10
     if str(tool) == "create_account":
