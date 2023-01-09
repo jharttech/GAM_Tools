@@ -29,7 +29,7 @@ class Wanted_Device_Info:
             self.result = str(data.stdout.read().decode().strip())
         elif str(wanted_data) == "ALL":
             self.result = str(gather.stdout.read().decode().strip())
-            
+
         print(self.result)
 
        
@@ -59,6 +59,8 @@ class Wanted_Device_Info:
             wanted_data_key = input("What information about the unit would you like? ")
             if str(wanted_data_key) not in user_choice_dict:
                 print("Invalid entry, please try again! (Enter 1-" + str(len(user_choice_dict)) + ")")
+            elif str(wanted_data_key) == "8":
+                sys.exit("Exiting program, thank you!")
             else:
                 wanted_data = user_choice_dict.get(wanted_data_key)
                 break
