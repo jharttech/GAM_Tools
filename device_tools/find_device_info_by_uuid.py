@@ -24,6 +24,8 @@ class Wanted_Device_Info:
         if str(wanted_data) == "ALL":
             gather = subprocess.Popen(["gam","info","cros",device_id], stdout=subprocess.PIPE)
             gather.wait()
+            self.result = str(gather.stdout.read().decode().strip())
+            print(self.result) 
 
        
     @classmethod
