@@ -24,9 +24,11 @@ class Wanted_Device_Info:
         gather = subprocess.Popen(["gam","info","cros",device_id], stdout=subprocess.PIPE)
         gather.wait()
         #self.result = str(gather.stdout.read().decode().strip())
-        if str(wanted_data) == "Serial Number":
+        if str(wanted_data) != "ALL":
             data = subprocess.Popen(["grep",g_headers.get(wanted_data)],stdin = gather.stdout,stdout=subprocess.PIPE)
             self.result = str(data.stdout.read().decode().strip())
+        elif str(wanted_data) == "ALL":
+            self.result = str(gather.stdout.read().decode().strip())
             
         print(self.result)
 
