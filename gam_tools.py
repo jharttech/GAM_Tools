@@ -1,7 +1,7 @@
 import subprocess
 from user_account_tools import create_account
 from helper_tools import misc
-from device_tools import find_units_low_on_space, inactive_units
+from device_tools import find_units_low_on_space, inactive_units, find_device_info_by_uuid
 
 
 class Tool:
@@ -34,8 +34,7 @@ def main():
     if str(tool) == "create_account":
         create_account.main()
     elif str(tool) == "find_device_info_by_uuid":
-        #FIXME
-        ...
+        find_device_info_by_uuid.main()
     elif str(tool) == "find_units_low_on_space":
         find_units_low_on_space.main()
     elif str(tool) == "find_inactive_units":
