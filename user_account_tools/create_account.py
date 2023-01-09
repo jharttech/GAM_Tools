@@ -163,14 +163,20 @@ class Assign_groups:
 
         # Take user input of the keys for which groups are needed.
         ## NOTE strip out whitespace incase user inputs spaces and use regex to check input
-        group_wanted = input(
-            f"""\nPlease enter the numbers of the groups
-the user will need be a member of: (Comma seperated: ex. 1,2,3)\n"""
-        )
-        group_wanted = group_wanted.split(",")
-        for i in range(0, len(group_wanted)):
-            # Append each needed group to the assigned groups list
-            assigned_groups.append(campus_groups.get(group_wanted[i]))
+        while True:
+            group_wanted = input(
+                """\nPlease enter the numbers of the groups
+    the user will need be a member of: (Comma seperated: ex. 1,2,3)\n"""
+            )
+            if str(group_wanted) != str(""):
+                group_wanted = group_wanted.split(",")
+                for i in range(0, len(group_wanted)):
+                    # Append each needed group to the assigned groups list
+                    assigned_groups.append(campus_groups.get(group_wanted[i]))
+                break
+            else:
+                assigned_groups.append(campus_groups.get("24"))
+                break
 
         return cls(assigned_groups, account_type)
 
