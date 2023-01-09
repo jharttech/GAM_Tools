@@ -18,7 +18,12 @@ class Wanted_Device_Info:
        self.device_id = device_id
        self.wanted_data = wanted_data
 
-       Get_Device_Data(device_id,wanted_data)
+       self.get_device_data(self.device_id,self.wanted_data)
+
+    def get_device_data(device_id,wanted_data):
+        if str(wanted_data) == "ALL":
+            gather = subprocess.Popen(["gam","info","cros",device_id], stdout=subprocess.PIPE)
+            gather.wait()
 
        
     @classmethod
@@ -52,17 +57,6 @@ class Wanted_Device_Info:
                 break
         return cls(device_id,wanted_data)
 
-class Get_Device_Data:
-    def __init__(self,device_id, wanted_data):
-        self.device_id = device_id
-        self.wanted_data = wanted_data
-
-        if str(wanted_data) == "ALL":
-            self.all_info(self.device_id)
-
-    def all_info(device_id):
-            gather = subprocess.Popen(["gam","info","cros",device_id], stdout=subprocess.PIPE)
-            gather.wait()
 
 def main():
     Wanted_Device_Info.get()
