@@ -37,7 +37,7 @@ class Wanted_Device_Info:
             else:
                 break
         
-        misc.Print_Dict(user_choice_dict)
+        misc.Dict_Print(user_choice_dict)
 
         while True:
             wanted_data_key = input("What information about the unit would you like? ")
