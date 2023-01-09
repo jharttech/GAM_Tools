@@ -8,24 +8,24 @@ from helper_tools import misc
 class Wanted_Device_Info:
     def __init__(self,device_id,wanted_data):
        self.g_headers = {
-        "1" : "serialNumber",
-        "2" : "orgUnitPath",
-        "3" : "osVersion",
-        "4" : "macAddress",
-        "5" : "autoUpdateExpiration",
-        "6" : "email"
+        "Serial Number" : "serialNumber",
+        "Org Unit" : "orgUnitPath",
+        "OS Version" : "osVersion",
+        "MAC Address" : "macAddress",
+        "Auto Update Expiration Date" : "autoUpdateExpiration",
+        "Recent Users" : "email",
        }
        self.device_id = device_id
        self.wanted_data = wanted_data
 
-       self.get_device_data(self.device_id,self.wanted_data)
+       self.get_device_data(self.device_id,self.wanted_data,self.g_headers)
 
-    def get_device_data(self,device_id,wanted_data):
+    def get_device_data(self,device_id,wanted_data,g_headers):
         gather = subprocess.Popen(["gam","info","cros",device_id], stdout=subprocess.PIPE)
         gather.wait()
         #self.result = str(gather.stdout.read().decode().strip())
-        if str(wanted_data) == "serialNumber":
-            data = subprocess.Popen(["grep",wanted_data],stdin = gather.stdout,stdout=subprocess.PIPE)
+        if str(wanted_data) == "Serial Number":
+            data = subprocess.Popen(["grep",g_headers.get(wanted_data)],stdin = gather.stdout,stdout=subprocess.PIPE)
             self.result = str(data.stdout.read().decode().strip())
             
         print(self.result)
