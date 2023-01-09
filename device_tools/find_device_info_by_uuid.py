@@ -22,6 +22,7 @@ class Wanted_Device_Info:
        self.device_id = device_id
        self.wanted_data = wanted_data
        data = [self.device_id,self.wanted_data]
+       print(data)
 
        return(data)
 
