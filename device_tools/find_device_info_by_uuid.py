@@ -51,26 +51,24 @@ class Wanted_Device_Info:
         }
 
         while True:
-            device_id = input("Please enter the UUID (Directory API ID): ")
+            device_id = input(f"Please enter the UUID (Directory API ID): ")
             if not re.search(
                 r"^(?:\w{8})-(?:\w{4})-(?:\w{4})-(?:\w{4})-(?:\w{12})$", device_id
             ):
-                print("Not a valid Directory API ID!!")
+                print(f"Not a valid Directory API ID!!")
             else:
                 break
 
         misc.Dict_Print(user_choice_dict)
 
         while True:
-            wanted_data_key = input("What information about the unit would you like? ")
+            wanted_data_key = input(f"What information about the unit would you like? ")
             if str(wanted_data_key) not in user_choice_dict:
                 print(
-                    "Invalid entry, please try again! (Enter 1-"
-                    + str(len(user_choice_dict))
-                    + ")"
+                    f"Invalid entry, please try again! (Enter 1-{str(len(user_choice_dict))}"
                 )
             elif str(wanted_data_key) == "8":
-                sys.exit("Exiting program, thank you!")
+                sys.exit(f"Exiting program, thank you!")
             else:
                 wanted_data = user_choice_dict.get(wanted_data_key)
                 break
