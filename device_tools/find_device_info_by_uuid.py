@@ -6,7 +6,7 @@ from helper_tools import misc
 
 
 class Wanted_Device_Info:
-    def __init__(self):
+    def __init__(self,device_id,wanted_data):
        self.g_headers = {
         "1" : "serialNumber",
         "2" : "orgUnitPath",
@@ -15,6 +15,10 @@ class Wanted_Device_Info:
         "5" : "autoUpdateExpiration",
         "6" : "email"
        }
+       self.device_id = device_id
+       self.wanted_data = wanted_data
+
+       return([self.device_id,wanted_data])
 
        
     @classmethod
