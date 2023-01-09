@@ -57,10 +57,9 @@ class Wanted_Device_Info:
         return cls(device_id,wanted_data)
 
 def show_data(data):
-    device_id = data[0]
-    device_data = data[1]
-    print(device_id + device_data)
-
+    #device_id = data[0]
+    #device_data = data[1]
+    print(data)
 def main():
     data = Wanted_Device_Info.get()
     show_data(data)
