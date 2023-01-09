@@ -170,12 +170,12 @@ class Assign_groups:
                 """\nPlease enter the numbers of the groups
     the user will need be a member of: (Comma seperated: ex. 1,2,3)\n"""
             )
-            if group_wanted != "":
+            if str(group_wanted) != str(""):
                 group_wanted = group_wanted.split(",")
                 for i in range(0, len(group_wanted)):
                     # Append each needed group to the assigned groups list
                     assigned_groups.append(campus_groups.get(group_wanted[i]))
-                    break
+                break
             else:
                 assigned_groups.append(campus_groups.get("24"))
                 break
