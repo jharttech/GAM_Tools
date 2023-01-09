@@ -21,8 +21,9 @@ class Wanted_Device_Info:
     def return_data_list(self,device_id,wanted_data):
        self.device_id = device_id
        self.wanted_data = wanted_data
+       data = [self.device_id,self.wanted_data]
 
-       return([self.device_id,self.wanted_data])
+       return(data)
 
        
     @classmethod
