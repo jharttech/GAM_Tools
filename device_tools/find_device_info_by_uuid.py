@@ -62,7 +62,8 @@ def show_data(data):
     print(device_id + device_data)
 
 def main():
-    Wanted_Device_Info.get()
+    data = Wanted_Device_Info.get()
+    print(data)
 
 
 
