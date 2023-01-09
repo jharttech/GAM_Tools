@@ -2,7 +2,7 @@ import sys
 import subprocess
 import csv
 from datetime import date
-from helper_tools import misc
+from helper_tools import misc, device_data
 
 
 # Get the current date in ISO format then split it on the hyphens
@@ -123,6 +123,7 @@ class Stage_CSV:
 
 # Define the main function
 def main():
+    device_data.Full_Device_Data()
     staged_csv = Stage_CSV().stage()
     misc.Compose(staged_csv)
 
