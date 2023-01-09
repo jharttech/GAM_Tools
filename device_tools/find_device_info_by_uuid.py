@@ -21,11 +21,14 @@ class Wanted_Device_Info:
        self.get_device_data(self.device_id,self.wanted_data)
 
     def get_device_data(self,device_id,wanted_data):
-        if str(wanted_data) == "ALL":
-            gather = subprocess.Popen(["gam","info","cros",device_id], stdout=subprocess.PIPE)
-            gather.wait()
-            self.result = str(gather.stdout.read().decode().strip())
-            print(self.result) 
+        gather = subprocess.Popen(["gam","info","cros",device_id], stdout=subprocess.PIPE)
+        gather.wait()
+        #self.result = str(gather.stdout.read().decode().strip())
+        if str(wanted_data) == "serialNumber":
+            data = subprocess.Popen(["grep",wanted_data],stdin = gather.stdout,stdout=subprocess.PIPE)
+            self.result = str(data.stdout.read().decode().strip())
+            
+        print(self.result)
 
        
     @classmethod
