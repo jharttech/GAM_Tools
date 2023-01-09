@@ -20,7 +20,7 @@ class Wanted_Device_Info:
 
        self.get_device_data(self.device_id,self.wanted_data)
 
-    def get_device_data(device_id,wanted_data):
+    def get_device_data(self,device_id,wanted_data):
         if str(wanted_data) == "ALL":
             gather = subprocess.Popen(["gam","info","cros",device_id], stdout=subprocess.PIPE)
             gather.wait()
