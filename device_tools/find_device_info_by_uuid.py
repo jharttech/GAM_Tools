@@ -15,16 +15,10 @@ class Wanted_Device_Info:
         "5" : "autoUpdateExpiration",
         "6" : "email"
        }
-
-       self.return_data_list(device_id,wanted_data)
-
-    def return_data_list(self,device_id,wanted_data):
        self.device_id = device_id
        self.wanted_data = wanted_data
-       data = [self.device_id,self.wanted_data]
-       print(data)
 
-       return(data)
+       Get_Device_Data(device_id,wanted_data)
 
        
     @classmethod
@@ -58,13 +52,21 @@ class Wanted_Device_Info:
                 break
         return cls(device_id,wanted_data)
 
-def show_data(data):
-    #device_id = data[0]
-    #device_data = data[1]
-    print(data)
+class Get_Device_Data:
+    def __init__(self,device_id, wanted_data):
+        self.device_id = device_id
+        self.wanted_data = wanted_data
+
+        if str(wanted_data) == "ALL":
+            self.all_info(self.device_id)
+
+    def all_info(device_id):
+            gather = subprocess.Popen(["gam","info","cros",device_id], stdout=subprocess.PIPE)
+            gather.wait()
+
 def main():
-    data = Wanted_Device_Info.get()
-    show_data(data)
+    Wanted_Device_Info.get()
+
 
 
 
