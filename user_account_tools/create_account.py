@@ -10,8 +10,8 @@ from helper_tools import user_data, misc
 class Setup:
     def __init__(self, account_type):
         # Create a directory with the account type the user chose
-        subprocess.Popen(["mkdir", str(account_type)], stdout=subprocess.DEVNULL)
-        subprocess.Popen(["mkdir", "logs"], stdout=subprocess.DEVNULL)
+        subprocess.Popen(["mkdir", str(account_type)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.Popen(["mkdir", "logs"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         self.account_type = account_type
         # Assign the new file and path to a variable
         n_file = f"{account_type}/{account_type}.txt"
@@ -307,7 +307,7 @@ def log_file(account_type):
     account_type = str(account_type)
     filepath = f"{account_type}/{account_type}.txt"
     x = datetime.datetime.now()
-    log_file_name = f"logs/{account_type}-{str(x.year)}{str(x.month)}{str(x.day)}{str(x.hour)}{str(x.minute)}{str(x.second)}"
+    log_file_name = f"logs/{account_type}-accounts-{str(x.year)}{str(x.month)}{str(x.day)}{str(x.hour)}{str(x.minute)}{str(x.second)}"
     create_log = subprocess.Popen(
         ["cp", filepath, log_file_name], stdout=subprocess.PIPE
     )
