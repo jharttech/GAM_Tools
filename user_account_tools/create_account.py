@@ -11,8 +11,8 @@ from helper_tools import user_data, misc
 class Setup:
     def __init__(self, account_type):
         # Create a directory with the account type the user chose
-        subprocess.Popen(["mkdir", str(account_type)], stdout=subprocess.DEVNULL)
-        subprocess.Popen(["mkdir", "logs"], stdout=subprocess.DEVNULL)
+        subprocess.Popen(["mkdir", str(account_type)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.Popen(["mkdir", "logs"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         self.account_type = account_type
         # Assign the new file and path to a variable
         #n_file = f"{account_type}/{account_type}.txt"
