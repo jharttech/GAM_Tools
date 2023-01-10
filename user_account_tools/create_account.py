@@ -311,7 +311,7 @@ def log_file(account_type):
     filepath = account_type + "/" + account_type + ".txt"
     x = datetime.datetime.now()
     log_file_name = (
-        "logs/" + account_type + "-" + str(x.year) + str(x.month) + str(x.day) + str(x.hour) + str(x.minute) + str(x.second)
+        "logs/" + account_type + "-accounts" + "-" + str(x.year) + str(x.month) + str(x.day) + str(x.hour) + str(x.minute) + str(x.second)
     )
     create_log = subprocess.Popen(
         ["cp", filepath, log_file_name], stdout=subprocess.PIPE
