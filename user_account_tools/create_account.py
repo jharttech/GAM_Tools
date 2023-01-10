@@ -170,7 +170,7 @@ class Assign_groups:
                 """\nPlease enter the numbers of the groups
     the user will need be a member of: (Comma seperated: ex. 1,2,3)\n"""
             )
-            if str(group_wanted) not in campus_groups:
+            if (str(group_wanted) not in campus_groups) and (str(group_wanted) != str("")):
                 print("Invalid entry, please try again! (Enter 1-" + str(len(campus_groups)) + ")")
             elif str(group_wanted) != str(""):
                 group_wanted = group_wanted.split(",")
