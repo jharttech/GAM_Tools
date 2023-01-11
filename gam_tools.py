@@ -1,5 +1,5 @@
 import subprocess
-from user_account_tools import create_account
+from user_account_tools import create_account, move_user
 from helper_tools import misc
 from device_tools import find_units_low_on_space, inactive_units, find_device_info_by_uuid
 
@@ -24,8 +24,10 @@ def main():
         "2":"find_device_info_by_uuid",
         "3":"find_units_low_on_space",
         "4":"find_inactive_units",
-        "5":"Exit"
+        "5":"move a single user to new Org Unit",
+        "6":"Exit"
     }
+
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
     print("Welcome to the MG Create Account Tool\n")
     misc.Dict_Print(tool_dict)
@@ -39,6 +41,8 @@ def main():
         find_units_low_on_space.main()
     elif str(tool) == "find_inactive_units":
         inactive_units.main()
+    elif str(tool) == "move a single user to a new Org Unit":
+        move_user.main()
         
 
 
