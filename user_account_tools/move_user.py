@@ -13,7 +13,7 @@ def get_current_ou():
 
 def move_user(campus_OUs,user):
     while True:
-        new_ou = input("What Org Unit would you like the user to be moved into? (Please provide full path) ")
+        new_ou = input("What Org Unit would you like the user to be moved into? ")
         if str(new_ou) not in campus_OUs:
             # If user input was not in the numeric keys, prompt them to enter a number
             # Between 1 and the length of the dictionary
@@ -21,19 +21,26 @@ def move_user(campus_OUs,user):
         else:
             ou = campus_OUs.get(new_ou)
             break
-    subprocess.Popen(["gam","update","user",user,"org",str(ou)], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    move = subprocess.Popen(["gam","update","user",user,"org",str(ou)], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    move.wait()
+    print(move)
 
 
 def main():
-    current_ou = get_current_ou()
-    print(current_ou[0])
-    if "Student" in current_ou[0]:
-        account_type = "student"
-    else:
-        account_type = "staff"
-    campus_OUs = create_account.Campus_OUs().ou_dict(account_type)
-    misc.Dict_Print(campus_OUs)
-    move_user(campus_OUs,current_ou[1])
+    try:
+        current_ou = get_current_ou()
+        print(current_ou[0])
+        if "Student" in current_ou[0]:
+            account_type = "student"
+        else:
+            account_type = "staff"
+        campus_OUs = create_account.Campus_OUs().ou_dict(account_type)
+        misc.Dict_Print(campus_OUs)
+        move_user(campus_OUs,current_ou[1])
+    except:
+        print("Unknown error.  Please try again")
+        main()
+    print("User has been moved to the " + current_ou[0] + ". Thank you! -JHart")
 
 
 
