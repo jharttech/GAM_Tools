@@ -72,7 +72,8 @@ def main():
         # IF error is encountered restart the program
         print("Unknown error.  Please try again")
         main()
-    print("\nUser has been moved to the " + ou + " OU. Thank you! -JHart")
+    print("\nUser has been moved to the " + ou + " OU.")
+    misc.exit_message()
 
 
 if __name__ == "__main__":
