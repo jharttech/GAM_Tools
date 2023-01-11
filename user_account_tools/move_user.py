@@ -25,9 +25,9 @@ def main():
         account_type = "student"
     else:
         account_type = "staff"
-    #Campus_OUs().ou_dict(account_type)
+    create_account.Campus_OUs().ou_dict(account_type)
     #move_user()
-    print(account_type)
+
 
 
 if __name__ == "__main__":
