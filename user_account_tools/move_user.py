@@ -2,6 +2,7 @@ import sys
 import subprocess
 import csv
 from user_account_tools import create_account
+from helper_tools import misc
 
 def get_current_ou():
     user_account = input("What user would you like to move? (Only username needed) ")
@@ -25,7 +26,8 @@ def main():
         account_type = "student"
     else:
         account_type = "staff"
-    create_account.Campus_OUs().ou_dict(account_type)
+    campus_OUs = create_account.Campus_OUs().ou_dict(account_type)
+    misc.Dict_Print(campus_OUs)
     #move_user()
 
 
