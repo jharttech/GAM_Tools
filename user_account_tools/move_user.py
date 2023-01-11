@@ -1,7 +1,7 @@
 import sys
 import subprocess
 import csv
-from create_account import Campus_OUs
+import create_account
 
 def get_current_ou():
     user_account = input("What user would you like to move? (Only username needed) ")
