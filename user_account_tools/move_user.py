@@ -23,7 +23,7 @@ def move_user(campus_OUs,user):
             break
     move = subprocess.Popen(["gam","update","user",user,"org",str(ou)], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     move.wait()
-    print(move)
+    print(move.stdout.read().decode().strip())
 
 
 def main():
