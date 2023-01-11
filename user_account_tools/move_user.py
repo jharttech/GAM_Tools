@@ -9,26 +9,31 @@ def get_current_ou():
     user_info = subprocess.Popen(["gam", "info", "user", user_account], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     user_current_ou = subprocess.Popen(["grep", "Google Org Unit Path"], stdin=user_info.stdout, stdout=subprocess.PIPE)
     result = ("Users current " + str(user_current_ou.stdout.read().decode().strip()))
-    return result
+    return result,user_account
 
-
-def move_user():
+def move_user(campus_OUs,user):
     while True:
         new_ou = input("What Org Unit would you like the user to be moved into? (Please provide full path) ")
-        #if str(new_ou) not in 
-
+        if str(new_ou) not in campus_OUs:
+            # If user input was not in the numeric keys, prompt them to enter a number
+            # Between 1 and the length of the dictionary
+            print("Invalid entry, please try again! (Enter 1-" + str(len(campus_OUs)) + ")")
+        else:
+            ou = campus_OUs.get(new_ou)
+            break
+    subprocess.Popen(["gam","update","user",user,"org",str(ou)], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 
 
 def main():
     current_ou = get_current_ou()
-    print(current_ou)
-    if "Student" in current_ou:
+    print(current_ou[0])
+    if "Student" in current_ou[0]:
         account_type = "student"
     else:
         account_type = "staff"
     campus_OUs = create_account.Campus_OUs().ou_dict(account_type)
     misc.Dict_Print(campus_OUs)
-    #move_user()
+    move_user(campus_OUs,current_ou[1])
 
 
 
