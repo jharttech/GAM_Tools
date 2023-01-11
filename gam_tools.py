@@ -24,7 +24,7 @@ def main():
         "2":"find_device_info_by_uuid",
         "3":"find_units_low_on_space",
         "4":"find_inactive_units",
-        "5":"move a single user to new Org Unit",
+        "5":"move_a_single_user_to_a_new_Org_Unit",
         "6":"Exit"
     }
 
@@ -41,7 +41,7 @@ def main():
         find_units_low_on_space.main()
     elif str(tool) == "find_inactive_units":
         inactive_units.main()
-    elif str(tool) == "move a single user to a new Org Unit":
+    elif str(tool) == "move_a_single_user_to_a_new_Org_Unit":
         move_user.main()
         
 
