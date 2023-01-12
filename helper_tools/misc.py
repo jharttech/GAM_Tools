@@ -20,3 +20,7 @@ class Dict_Print:
         print("\n")
         for i in range(0,len(self.data)):
             print(str(self.data_list[i]) +  " : " + self.data.get(str(self.data_list[i])))
+
+
+def exit_message():
+    print("Terminating Program at this time.  Thank you! --JHart")
