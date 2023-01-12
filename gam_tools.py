@@ -25,8 +25,8 @@ def main():
         "3":"find_units_low_on_space",
         "4":"find_inactive_units",
         "5":"move_a_single_user_to_a_new_Org_Unit",
-        "6":"get_all_user_data_from_an_Org_Unit"
-        "6":"Exit"
+        "6":"get_all_user_data_from_an_Org_Unit",
+        "7":"Exit"
     }
 
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
