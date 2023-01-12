@@ -2,8 +2,16 @@ import sys
 import csv
 import re
 import subprocess
-
+from user_account_tools import create_account
 from helper_tools import misc
+
+
+class Setup:
+    def __init__(self):
+        self.staff_data = subprocess.Popen(["touch","needed_files/list_all_staff_data.csv"])
+        self.staff_data.wait()
+        self.student_data = subprocess.Popen(["touch","list_all_student_data.csv"])
+        self.student_data.wait()
 
 
 # The Account_type class simply asks the user whether the user wants to use
@@ -31,6 +39,20 @@ class Account_type:
             else:
                 return cls(account)
 
+class Get_All_Users_Data:
+    def __init__(self,account_type,org_units):
+        self.account_type = account_type
+        self.org_units = org_units
+
+    def gather_data(self):
+        if str(self.account_type) == "student":
+            with open("needed_file/list_all_student_data.csv") as needed_file:
+                for i in range(1,len(self.org_units)):
+                    gather = subprocess.Popen(["gam","print","users","allfields","query","orgUnitPath=" + str(self.org_units.get(i))], stdout=needed_file)
+                    gather.wait()
+
+
+
 
 # The Stage_csv class ultimately returns a list of values for
 # The data to be composed into a file, the name of the output file, and the type of account
@@ -51,11 +73,11 @@ class Stage_csv:
 
         # Set input file, output file, and notes variables based on the type of data being worked with
         if self.account_type == "staff":
-            self.i_filename = "full_staff.csv"
+            self.i_filename = "list_all_staff_data.csv"
             self.o_filename = "fullStaff.csv"
             self.notes = "EMPLOYEE"
         elif self.account_type == "student":
-            self.i_filename = "full_student.csv"
+            self.i_filename = "list_all_student_data.csv"
             self.o_filename = "fullStudent.csv"
             self.notes = "Initial Import"
         else:
@@ -162,66 +184,6 @@ class Compose:
                 self.full.writerow(self.lines[i])
 
 
-# The Building_names class creates a list of building names and returns the list
-class Building_names:
-    def __init__(self, staged_data):
-        self.building_list = []
-        self.temp_building = []
-        self.o_filename = staged_data[1]
-        self.num = None
-
-        # self.buildings(self,staged_data[2],staged_data[1])
-
-    def buildings(self):
-        with open("needed_file/" + self.o_filename, mode="r") as self.csv_file:
-            self.csv_reader = csv.reader(self.csv_file, delimiter=",")
-            self.line_count = 0
-            self.n_col = len(next(self.csv_reader))
-            self.csv_file.seek(0)
-            for row in self.csv_reader:
-                if self.line_count == 0:
-                    for x in range(0, self.n_col):
-                        if (str(row[x])) == "Location":
-                            column_name = str(row[x])
-                            self.num = x
-                            self.line_count += 1
-                else:
-                    self.temp_building = row[self.num].split("/")
-                    if (
-                        self.temp_building[len(self.temp_building) - 1]
-                        not in self.building_list
-                    ):
-                        self.building_list.append(
-                            self.temp_building[len(self.temp_building) - 1]
-                        )
-        return self.building_list
-
-
-# The Building class show the user a list of building names and asks which building the
-# User would like data from.
-class Building:
-    def __init__(self, building):
-        self.building = building
-
-    def __str__(self):
-        return self.building
-
-    @classmethod
-    def get(cls, building_list):
-        buildings = building_list
-        # Add the ALL option the the list of buildings in case the user wants data from
-        # all buildings
-        buildings.append("ALL")
-        while True:
-            for l in range(len(buildings)):
-                print(buildings[l])
-            building = input(
-                "Please enter the building of data wanted: "
-            )
-            if building not in buildings:
-                print("Invalid Building")
-            else:
-                return cls(building)
 
 
 # The Sort_students class is used if the user wants to sort students based on a particular
@@ -307,7 +269,11 @@ def move_file(staged_data):
 
 # Main function in case this script is called independently of the main create_account.py program
 def main():
+    Setup()
     account_type = Account_type.get()
+    campus_OUs = create_account.Campus_OUs().ou_dict(account_type)
+    misc.Dict_Print(campus_OUs)
+    Get_All_Users_Data(account_type,campus_OUs)
     staged = Stage_csv(account_type).stage()
     Compose(staged)
     move_file(staged)
