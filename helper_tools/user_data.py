@@ -46,7 +46,7 @@ class Get_All_Users_Data:
 
     def gather_data(self):
         if str(self.account_type) == "student":
-            with open("needed_file/list_all_student_data.csv") as needed_file:
+            with open("needed_files/list_all_student_data.csv") as needed_file:
                 for i in range(1,len(self.org_units)):
                     gather = subprocess.Popen(["gam","print","users","allfields","query","orgUnitPath=" + str(self.org_units.get(i))], stdout=needed_file)
                     gather.wait()
