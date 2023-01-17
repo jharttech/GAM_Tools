@@ -49,7 +49,9 @@ class Get_All_Users_Data:
             with open("needed_files/list_all_student_data.csv", mode="w") as needed_file:
                 for i in range(1,len(self.org_units)):
                     gather = subprocess.Popen(["gam","print","users","allfields","query","orgUnitPath=" + str(self.org_units.get(i))], stdout=needed_file)
+                    gather.communicate()
                     gather.wait()
+                
 
 
 
