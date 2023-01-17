@@ -8,9 +8,11 @@ from helper_tools import misc
 
 class Setup:
     def __init__(self):
-        self.staff_data = subprocess.Popen(["touch","../needed_files/list_all_staff_data.csv"])
+        self.staff_data = subprocess.Popen(
+            ["touch", "../needed_files/list_all_staff_data.csv"]
+        )
         self.staff_data.wait()
-        self.student_data = subprocess.Popen(["touch","../list_all_student_data.csv"])
+        self.student_data = subprocess.Popen(["touch", "../list_all_student_data.csv"])
         self.student_data.wait()
 
 
@@ -39,27 +41,45 @@ class Account_type:
             else:
                 return cls(account)
 
+
 class Get_All_Users_Data:
-    def __init__(self,account_type,org_units):
+    def __init__(self, account_type, org_units):
         self.account_type = account_type
         self.org_units = org_units
-        print("dict: "self.org_units)
         self.gather_data()
 
     def gather_data(self):
         if str(self.account_type) == "student":
-            with open("needed_files/list_all_student_data.csv", mode="w") as needed_file:
-                for i in range(1,len(self.org_units)):
-                    gather = subprocess.Popen(["gam","print","users","allfields","query","orgUnitPath=" + str(self.org_units.get(str(i)))], stdout=needed_file)
-                    gather.wait()
+            with open(
+                "needed_files/list_all_student_data.csv", mode="w"
+            ) as needed_file:
+                gather = subprocess.Popen(
+                    [
+                        "gam",
+                        "print",
+                        "users",
+                        "allfields",
+                        "query",
+                        "orgUnitPath=" + str(self.account_type),
+                    ],
+                    stdout=needed_file,
+                )
+                gather.wait()
         elif str(self.account_type) == "staff":
             with open("needed_files/list_all_staff_data.csv", mode="w") as needed_file:
-                for i in range(1,len(self.org_units)):
-                    gather = subprocess.Popen(["gam","print","users","allfields","query","orgUnitPath=" + str(self.org_units.get(str(i)))], stdout=needed_file)
-                    gather.wait()
+                gather = subprocess.Popen(
+                    [
+                        "gam",
+                        "print",
+                        "users",
+                        "allfields",
+                        "query",
+                        "orgUnitPath=" + str(self.account_type),
+                    ],
+                    stdout=needed_file,
+                )
+                gather.wait()
         return
-
-
 
 
 # The Stage_csv class ultimately returns a list of values for
@@ -114,7 +134,7 @@ class Stage_csv:
 
             # Loop over each row in the input file
             for row in self.csv_reader:
-                # If it is the first row then gather the column names and put them in a 
+                # If it is the first row then gather the column names and put them in a
                 # Dictionary that stores the column name as the key and the column number as the value
                 if (self.line_count == 0) or ("primaryEmail" in row):
                     for x in range(0, self.n_col):
@@ -138,7 +158,9 @@ class Stage_csv:
                             self.username = self.username[0]
                         except:
                             sys.exit(
-                                "Error with primaryEmail field, please check the 'needed_files/" + self.i_filename + "'"
+                                "Error with primaryEmail field, please check the 'needed_files/"
+                                + self.i_filename
+                                + "'"
                             )
                         try:
                             # Get each value from each desired column using the column name as the key,
@@ -178,7 +200,9 @@ class Stage_csv:
             if len(self.lines) > 2:
                 return [self.lines, self.o_filename, self.account_type]
             else:
-                sys.exit("Error: no " + self.account_type +  " data to add. Exiting now...")
+                sys.exit(
+                    "Error: no " + self.account_type + " data to add. Exiting now..."
+                )
 
 
 # The Compose class simply composes a file that can then be moved or reused for further
@@ -191,8 +215,6 @@ class Compose:
             for i in range(0, len(self.lines)):
                 self.full = csv.writer(self.csv_file, delimiter=",")
                 self.full.writerow(self.lines[i])
-
-
 
 
 # The Sort_students class is used if the user wants to sort students based on a particular
@@ -224,7 +246,9 @@ class Sort_students:
                     self.line_count += 1
                 # If the row is not the header and its building is the desired building then
                 # Start logic block
-                elif (self.line_count != 0) and (row[self.num].__contains__(str(self.building))):
+                elif (self.line_count != 0) and (
+                    row[self.num].__contains__(str(self.building))
+                ):
                     self.temp_building = row[self.num].split("/")
                     self.temp_building = self.temp_building[len(self.temp_building) - 1]
                     # Make sure the row does coincide with the desired building
@@ -248,7 +272,12 @@ def move_file(staged_data):
     def moved():
         # Move the wanted file to its final destination
         subprocess.Popen(["mv", filename, destination], stdout=subprocess.PIPE)
-        return "All " + staged_data[2] + " has been compiled into ..ChromebookCheckoutTool/" + destination
+        return (
+            "All "
+            + staged_data[2]
+            + " has been compiled into ..ChromebookCheckoutTool/"
+            + destination
+        )
 
     if staged_data[2] == "staff":
         # Move the staff data file to its destination
@@ -258,7 +287,8 @@ def move_file(staged_data):
         print(moved())
     else:
         sys.exit(
-            "No Data to work with or move, please check original data source needed_files/" + staged_data[1]
+            "No Data to work with or move, please check original data source needed_files/"
+            + staged_data[1]
         )
 
 
@@ -268,7 +298,7 @@ def main():
     account_type = Account_type.get()
     campus_OUs = user_account_tools.create_account.Campus_OUs().ou_dict(account_type)
     misc.Dict_Print(campus_OUs)
-    Get_All_Users_Data(account_type,campus_OUs)
+    Get_All_Users_Data(account_type, campus_OUs)
     staged = Stage_csv(account_type).stage()
     Compose(staged)
     move_file(staged)
