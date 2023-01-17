@@ -8,9 +8,9 @@ from helper_tools import misc
 
 class Setup:
     def __init__(self):
-        self.staff_data = subprocess.Popen(["touch","needed_files/list_all_staff_data.csv"])
+        self.staff_data = subprocess.Popen(["touch","../needed_files/list_all_staff_data.csv"])
         self.staff_data.wait()
-        self.student_data = subprocess.Popen(["touch","list_all_student_data.csv"])
+        self.student_data = subprocess.Popen(["touch","../list_all_student_data.csv"])
         self.student_data.wait()
 
 
@@ -46,12 +46,16 @@ class Get_All_Users_Data:
 
     def gather_data(self):
         if str(self.account_type) == "student":
-            with open("needed_files/list_all_student_data.csv", mode="w") as needed_file:
+            with open("../needed_files/list_all_student_data.csv", mode="w") as needed_file:
                 for i in range(1,len(self.org_units)):
                     gather = subprocess.Popen(["gam","print","users","allfields","query","orgUnitPath=" + str(self.org_units.get(i))], stdout=needed_file)
-                    gather.communicate()
                     gather.wait()
-                
+        elif str(self.account_type) == "staff":
+            with open("../needed_files/list_all_staff_data.csv", mode="w") as needed_file:
+                for i in range(1,len(self.org_units)):
+                    gather = subprocess.Popen(["gam","print","users","allfields","query","orgUnitPath=" + str(self.org_units.get(i))], stdout=needed_file)
+                    gather.wait()
+        return
 
 
 
