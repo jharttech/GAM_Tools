@@ -184,7 +184,7 @@ class Compose:
     def __init__(self, staged_data):
         self.o_filename = staged_data[1]
         self.lines = staged_data[0]
-        with open("needed_files/" + self.o_filename, mode="w") as self.csv_file:
+        with open("../needed_files/" + self.o_filename, mode="w") as self.csv_file:
             for i in range(0, len(self.lines)):
                 self.full = csv.writer(self.csv_file, delimiter=",")
                 self.full.writerow(self.lines[i])
@@ -238,7 +238,7 @@ class Sort_students:
 
 # The move_file function moves the created files to where they need to go
 def move_file(staged_data):
-    filename = "needed_files/" + staged_data[1]
+    filename = "../needed_files/" + staged_data[1]
     destination = staged_data[2] + "/" + staged_data[1]
 
     # Nested function to reduce reduntant code
@@ -251,22 +251,8 @@ def move_file(staged_data):
         # Move the staff data file to its destination
         print(moved())
     elif staged_data[2] == "student":
-        # Call the Building_names class to get a list of possible buildings
-        building_names = Building_names(staged_data).buildings()
-        # Pass the list of possible buildings to the Building class get method to allow the
-        # User to state which building they want
-        building = Building.get(building_names)
-        if str(building) != "ALL":
-            # If the user did not chose ALL buildings, then sort the student data based on
-            # Users desired building
-            Sort_students(building, filename).sort()
-            print(
-                "All " +  staged_data[2] + " in " + building + " has been compiled into ..ChromebookCheckoutTool/" + staged_data[2] + "/" + building + ".csv"
-            )
-        else:
-            # If user wanted student data from ALL buildings then do not sort the data, instead
-            # Write the file of all the student data and move it to its destination.
-            print(moved())
+        # Write the file of all the student data and move it to its destination.
+        print(moved())
     else:
         sys.exit(
             "No Data to work with or move, please check original data source needed_files/" + staged_data[1]
