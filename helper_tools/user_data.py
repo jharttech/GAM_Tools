@@ -50,6 +50,7 @@ class Get_All_Users_Data:
 
     def gather_data(self):
         if str(self.account_type) == "student":
+            self.ou = "/Students"
             with open(
                 "needed_files/list_all_student_data.csv", mode="w"
             ) as needed_file:
@@ -60,12 +61,13 @@ class Get_All_Users_Data:
                         "users",
                         "allfields",
                         "query",
-                        "orgUnitPath=" + str(self.account_type),
+                        "orgUnitPath=" + str(self.ou),
                     ],
                     stdout=needed_file,
                 )
                 gather.wait()
         elif str(self.account_type) == "staff":
+            self.ou = "/Staff"
             with open("needed_files/list_all_staff_data.csv", mode="w") as needed_file:
                 gather = subprocess.Popen(
                     [
@@ -74,7 +76,7 @@ class Get_All_Users_Data:
                         "users",
                         "allfields",
                         "query",
-                        "orgUnitPath=" + str(self.account_type),
+                        "orgUnitPath=" + str(self.ou),
                     ],
                     stdout=needed_file,
                 )
