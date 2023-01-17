@@ -267,7 +267,7 @@ class Sort_students:
 
 # The move_file function moves the created files to where they need to go
 def move_file(staged_data):
-    filename = "../needed_files/" + staged_data[1]
+    filename = "needed_files/" + staged_data[1]
     destination = staged_data[2] + "/" + staged_data[1]
 
     # Nested function to reduce reduntant code
