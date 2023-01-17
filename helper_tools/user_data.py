@@ -2,8 +2,11 @@ import sys
 import csv
 import re
 import subprocess
-from ..user_account_tools import create_account
-from ..helper_tools import misc
+
+import sys
+sys.path.append("..")
+from user_account_tools import create_account
+from helper_tools import misc
 
 
 class Setup:
