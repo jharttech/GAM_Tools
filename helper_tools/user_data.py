@@ -74,11 +74,11 @@ class Stage_csv:
         # Set input file, output file, and notes variables based on the type of data being worked with
         if self.account_type == "staff":
             self.i_filename = "list_all_staff_data.csv"
-            self.o_filename = "fullStaff.csv"
+            self.o_filename = "full_staff_data.csv"
             self.notes = "EMPLOYEE"
         elif self.account_type == "student":
             self.i_filename = "list_all_student_data.csv"
-            self.o_filename = "fullStudent.csv"
+            self.o_filename = "full_student_data.csv"
             self.notes = "Initial Import"
         else:
             raise ValueError("Invalid account type!")
@@ -88,7 +88,7 @@ class Stage_csv:
     def stage(
         self,
     ):
-        with open("needed_file/" + self.i_filename, mode="r") as self.csv_file:
+        with open("needed_files/" + self.i_filename, mode="r") as self.csv_file:
             self.csv_reader = csv.reader(self.csv_file, delimiter=",")
             self.n_col = len(next(self.csv_reader))
             self.csv_file.seek(0)
@@ -129,7 +129,7 @@ class Stage_csv:
                         self.username = self.username[0]
                     except:
                         sys.exit(
-                            "Error with primaryEmail field, please check the 'needed_file/" + self.i_filename + "'"
+                            "Error with primaryEmail field, please check the 'needed_files/" + self.i_filename + "'"
                         )
                     try:
                         # Get each value from each desired column using the column name as the key,
@@ -178,7 +178,7 @@ class Compose:
     def __init__(self, staged_data):
         self.o_filename = staged_data[1]
         self.lines = staged_data[0]
-        with open("needed_file/" + self.o_filename, mode="w") as self.csv_file:
+        with open("needed_files/" + self.o_filename, mode="w") as self.csv_file:
             for i in range(0, len(self.lines)):
                 self.full = csv.writer(self.csv_file, delimiter=",")
                 self.full.writerow(self.lines[i])
@@ -232,7 +232,7 @@ class Sort_students:
 
 # The move_file function moves the created files to where they need to go
 def move_file(staged_data):
-    filename = "needed_file/" + staged_data[1]
+    filename = "needed_files/" + staged_data[1]
     destination = staged_data[2] + "/" + staged_data[1]
 
     # Nested function to reduce reduntant code
@@ -263,7 +263,7 @@ def move_file(staged_data):
             print(moved())
     else:
         sys.exit(
-            "No Data to work with or move, please check original data source needed_file/" + staged_data[1]
+            "No Data to work with or move, please check original data source needed_files/" + staged_data[1]
         )
 
 
