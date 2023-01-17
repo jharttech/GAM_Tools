@@ -2,10 +2,7 @@ import sys
 import csv
 import re
 import subprocess
-
-import sys
-sys.path.append("..")
-from user_account_tools import create_account
+import user_account_tools.create_account
 from helper_tools import misc
 
 
@@ -274,7 +271,7 @@ def move_file(staged_data):
 def main():
     Setup()
     account_type = Account_type.get()
-    campus_OUs = create_account.Campus_OUs().ou_dict(account_type)
+    campus_OUs = user_account_tools.create_account.Campus_OUs().ou_dict(account_type)
     misc.Dict_Print(campus_OUs)
     Get_All_Users_Data(account_type,campus_OUs)
     staged = Stage_csv(account_type).stage()
