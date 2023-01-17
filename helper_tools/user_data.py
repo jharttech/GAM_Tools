@@ -43,6 +43,7 @@ class Get_All_Users_Data:
     def __init__(self,account_type,org_units):
         self.account_type = account_type
         self.org_units = org_units
+        self.gather_data()
 
     def gather_data(self):
         if str(self.account_type) == "student":
