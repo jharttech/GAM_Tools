@@ -185,7 +185,7 @@ class Compose:
     def __init__(self, staged_data):
         self.o_filename = staged_data[1]
         self.lines = staged_data[0]
-        with open("/needed_files/" + self.o_filename, mode="w") as self.csv_file:
+        with open("needed_files/" + self.o_filename, mode="w") as self.csv_file:
             for i in range(0, len(self.lines)):
                 self.full = csv.writer(self.csv_file, delimiter=",")
                 self.full.writerow(self.lines[i])
