@@ -94,7 +94,7 @@ class Stage_csv:
     def stage(
         self,
     ):
-        with open("needed_files/" + self.i_filename, mode="r") as self.csv_file:
+        with open("../needed_files/" + self.i_filename, mode="r") as self.csv_file:
             self.csv_reader = csv.reader(self.csv_file, delimiter=",")
             self.n_col = len(next(self.csv_reader))
             self.csv_file.seek(0)
@@ -122,55 +122,56 @@ class Stage_csv:
                     # Keep count of each row
                     self.line_count += 1
                 else:
-                    try:
-                        # Break the email from the primaryEmail column using the @ to split as
-                        # the username should not include the domain
-                        self.username = row[
-                            self.header_to_num.get(
-                                "primaryEmail",
-                                "Error getting header number for primaryEmail",
-                            )
-                        ].split("@")
-                        # Drop the domain off to create a username
-                        self.username = self.username[0]
-                    except:
-                        sys.exit(
-                            "Error with primaryEmail field, please check the 'needed_files/" + self.i_filename + "'"
-                        )
-                    try:
-                        # Get each value from each desired column using the column name as the key,
-                        # And returning the value, which is a num, as an index for the row.
-                        self.temp_row = [
-                            row[
+                    if "primaryEmail" not in row:
+                        try:
+                            # Break the email from the primaryEmail column using the @ to split as
+                            # the username should not include the domain
+                            self.username = row[
                                 self.header_to_num.get(
                                     "primaryEmail",
                                     "Error getting header number for primaryEmail",
                                 )
-                            ],
-                            row[
-                                self.header_to_num.get(
-                                    "name.givenName",
-                                    "Error getting header number for givenName",
-                                )
-                            ],
-                            row[
-                                self.header_to_num.get(
-                                    "name.familyName",
-                                    "Error getting header number for familyName",
-                                )
-                            ],
-                            row[
-                                self.header_to_num.get(
-                                    "orgUnitPath",
-                                    "Error getting header number for orgUnitPath",
-                                )
-                            ],
-                            self.notes,
-                            self.username,
-                        ]
-                        self.lines.append(self.temp_row)
-                    except:
-                        sys.exit("Error getting needed fields for csv row")
+                            ].split("@")
+                            # Drop the domain off to create a username
+                            self.username = self.username[0]
+                        except:
+                            sys.exit(
+                                "Error with primaryEmail field, please check the 'needed_files/" + self.i_filename + "'"
+                            )
+                        try:
+                            # Get each value from each desired column using the column name as the key,
+                            # And returning the value, which is a num, as an index for the row.
+                            self.temp_row = [
+                                row[
+                                    self.header_to_num.get(
+                                        "primaryEmail",
+                                        "Error getting header number for primaryEmail",
+                                    )
+                                ],
+                                row[
+                                    self.header_to_num.get(
+                                        "name.givenName",
+                                        "Error getting header number for givenName",
+                                    )
+                                ],
+                                row[
+                                    self.header_to_num.get(
+                                        "name.familyName",
+                                        "Error getting header number for familyName",
+                                    )
+                                ],
+                                row[
+                                    self.header_to_num.get(
+                                        "orgUnitPath",
+                                        "Error getting header number for orgUnitPath",
+                                    )
+                                ],
+                                self.notes,
+                                self.username,
+                            ]
+                            self.lines.append(self.temp_row)
+                        except:
+                            sys.exit("Error getting needed fields for csv row")
 
             if len(self.lines) > 2:
                 return [self.lines, self.o_filename, self.account_type]
