@@ -114,7 +114,7 @@ class Stage_csv:
             for row in self.csv_reader:
                 # If it is the first row then gather the column names and put them in a 
                 # Dictionary that stores the column name as the key and the column number as the value
-                if self.line_count == 0:
+                if (self.line_count == 0) or ("primaryEmail" in row):
                     for x in range(0, self.n_col):
                         self.col_name = str(row[x])
                         if self.col_name in self.g_headers:
