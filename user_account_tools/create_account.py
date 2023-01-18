@@ -180,7 +180,7 @@ class Assign_groups:
                     assigned_groups.append(campus_groups.get(group_wanted[i]))
                 break
             else:
-                assigned_groups.append(campus_groups.get("24"))
+                assigned_groups.append("NO GROUPS")
                 break
 
         return cls(assigned_groups, account_type)
