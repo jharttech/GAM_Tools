@@ -91,7 +91,7 @@ class Get_User_Data:
             else:
                 selected_ou = str(org_units.get(str(wanted_ou)))
                 break
-        return cls(account_type,org_units,wanted_ou)
+        return cls(account_type,org_units,selected_ou)
 
 
 # The Stage_csv class ultimately returns a list of values for
