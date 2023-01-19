@@ -49,7 +49,7 @@ class Get_User_Data:
         self.gather_data(selected_ou)
 
     def gather_data(self,selected_ou):
-        pause = input("Made it and  " + selected_ou)
+        pause = input("Made it and  " + str(selected_ou))
         if str(self.account_type) == "student":
             with open(
                 "needed_files/list_student_data.csv", mode="w"
