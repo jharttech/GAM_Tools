@@ -61,7 +61,7 @@ class Get_User_Data:
                         "users",
                         "allfields",
                         "query",
-                        "orgUnitPath=" + str(self.selected_ou),
+                        "orgUnitPath=" + str(selected_ou),
                     ],
                     stdout=needed_file,
                 )
@@ -75,7 +75,7 @@ class Get_User_Data:
                         "users",
                         "allfields",
                         "query",
-                        "orgUnitPath=" + str(self.selected_ou),
+                        "orgUnitPath=" + str(selected_ou),
                     ],
                     stdout=needed_file,
                 )
