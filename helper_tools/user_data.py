@@ -46,7 +46,8 @@ class Get_User_Data:
     def __init__(self, account_type, org_units,selected_ou):
         self.account_type = account_type
         self.org_units = org_units
-        self.gather_data(selected_ou)
+        self.selected_ou = selected_ou
+        self.gather_data(self.selected_ou)
 
     def gather_data(self,selected_ou):
         pause = input("Made it and  " + str(selected_ou))
@@ -80,7 +81,9 @@ class Get_User_Data:
                     stdout=needed_file,
                 )
                 gather.wait()
-        return selected_ou
+
+    def __str__(self):
+        return self.selected_ou
 
     @classmethod
     def get(cls,account_type,org_units):
