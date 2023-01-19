@@ -113,11 +113,11 @@ class Stage_csv:
         # Set input file, output file, and notes variables based on the type of data being worked with
         if self.account_type == "staff":
             self.i_filename = "list_staff_data.csv"
-            self.o_filename = selected_ou + "_staff_data.csv"
+            self.o_filename = str(selected_ou) + "_staff_data.csv"
             self.notes = "EMPLOYEE"
         elif self.account_type == "student":
             self.i_filename = "list_student_data.csv"
-            self.o_filename = selected_ou + "_student_data.csv"
+            self.o_filename = str(selected_ou) + "_student_data.csv"
             self.notes = "Initial Import"
         else:
             raise ValueError("Invalid account type!")
