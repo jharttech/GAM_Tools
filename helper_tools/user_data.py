@@ -310,7 +310,7 @@ def main():
     account_type = Account_type.get()
     campus_OUs = user_account_tools.create_account.Campus_OUs().ou_dict(account_type)
     misc.Dict_Print(campus_OUs)
-    Get_User_Data(account_type, campus_OUs,None).get()
+    Get_User_Data(account_type, campus_OUs,None).get(campus_OUs)
     staged = Stage_csv(account_type).stage()
     Compose(staged)
     move_file(staged)
