@@ -47,6 +47,8 @@ class Get_User_Data:
         self.account_type = account_type
         self.org_units = org_units
         self.selected_ou = selected_ou
+        self.selected_ou_name = self.selected_ou.split("/")
+        self.selected_ou_name = self.selected_ou_name[len(self.selected_ou_name)-1]
         self.gather_data(self.selected_ou)
 
     def gather_data(self,selected_ou):
@@ -83,7 +85,7 @@ class Get_User_Data:
                 gather.wait()
 
     def __str__(self):
-        return self.selected_ou
+        return self.selected_ou_name
 
     @classmethod
     def get(cls,account_type,org_units):
