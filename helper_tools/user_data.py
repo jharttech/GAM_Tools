@@ -12,7 +12,7 @@ class Setup:
             ["touch", "../needed_files/list_staff_data.csv"]
         )
         self.staff_data.wait()
-        self.student_data = subprocess.Popen(["touch", "../list_student_data.csv"])
+        self.student_data = subprocess.Popen(["touch", "../needed_files/list_student_data.csv"])
         self.student_data.wait()
 
 
