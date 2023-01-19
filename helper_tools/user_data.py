@@ -42,15 +42,15 @@ class Account_type:
                 return cls(account)
 
 
-class Get_All_Users_Data:
-    def __init__(self, account_type, org_units):
+class Get_User_Data:
+    def __init__(self, account_type, org_units,selected_ou):
+        self.selected_ou = selected_ou
         self.account_type = account_type
         self.org_units = org_units
         self.gather_data()
 
     def gather_data(self):
         if str(self.account_type) == "student":
-            self.ou = "/Students"
             with open(
                 "needed_files/list_all_student_data.csv", mode="w"
             ) as needed_file:
@@ -61,13 +61,12 @@ class Get_All_Users_Data:
                         "users",
                         "allfields",
                         "query",
-                        "orgUnitPath=" + str(self.ou),
+                        "orgUnitPath=" + str(self.selected_ou),
                     ],
                     stdout=needed_file,
                 )
                 gather.wait()
         elif str(self.account_type) == "staff":
-            self.ou = "/Staff"
             with open("needed_files/list_all_staff_data.csv", mode="w") as needed_file:
                 gather = subprocess.Popen(
                     [
@@ -76,12 +75,23 @@ class Get_All_Users_Data:
                         "users",
                         "allfields",
                         "query",
-                        "orgUnitPath=" + str(self.ou),
+                        "orgUnitPath=" + str(self.selected_ou),
                     ],
                     stdout=needed_file,
                 )
                 gather.wait()
         return
+
+    @classmethod
+    def get(cls,user_ous):
+        while True:
+            wanted_ou = input("Please enter which Org Unit you want user data from: ")
+            if str(wanted_ou) not in user_ous:
+                print("Invalid entry, please try again! (Enter 1-" + str(len(user_ous)) + ")")
+            else:
+                selected_ou = str(user_ous.get(str(wanted_ou)))
+                break
+        return cls(selected_ou)
 
 
 # The Stage_csv class ultimately returns a list of values for
@@ -300,7 +310,7 @@ def main():
     account_type = Account_type.get()
     campus_OUs = user_account_tools.create_account.Campus_OUs().ou_dict(account_type)
     misc.Dict_Print(campus_OUs)
-    Get_All_Users_Data(account_type, campus_OUs)
+    Get_User_Data(account_type, campus_OUs,None).get()
     staged = Stage_csv(account_type).stage()
     Compose(staged)
     move_file(staged)
