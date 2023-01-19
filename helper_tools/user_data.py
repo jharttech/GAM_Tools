@@ -86,7 +86,7 @@ class Get_User_Data:
     def get(cls,account_type,org_units):
         while True:
             wanted_ou = input("Please enter which Org Unit you want user data from: ")
-            if str(wanted_ou) not in user_ous:
+            if str(wanted_ou) not in org_units:
                 print("Invalid entry, please try again! (Enter 1-" + str(len(org_units)) + ")")
             else:
                 selected_ou = str(org_units.get(str(wanted_ou)))
