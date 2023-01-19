@@ -83,15 +83,15 @@ class Get_User_Data:
         return
 
     @classmethod
-    def get(cls,user_ous):
+    def get(cls,account_type,org_units):
         while True:
             wanted_ou = input("Please enter which Org Unit you want user data from: ")
             if str(wanted_ou) not in user_ous:
-                print("Invalid entry, please try again! (Enter 1-" + str(len(user_ous)) + ")")
+                print("Invalid entry, please try again! (Enter 1-" + str(len(org_units)) + ")")
             else:
-                selected_ou = str(user_ous.get(str(wanted_ou)))
+                selected_ou = str(org_units.get(str(wanted_ou)))
                 break
-        return cls(selected_ou)
+        return cls(selected_ou,account_type,org_units)
 
 
 # The Stage_csv class ultimately returns a list of values for
@@ -310,7 +310,7 @@ def main():
     account_type = Account_type.get()
     campus_OUs = user_account_tools.create_account.Campus_OUs().ou_dict(account_type)
     misc.Dict_Print(campus_OUs)
-    Get_User_Data(account_type, campus_OUs,None).get(campus_OUs)
+    Get_User_Data().get(account_type,campus_OUs)
     staged = Stage_csv(account_type).stage()
     Compose(staged)
     move_file(staged)
