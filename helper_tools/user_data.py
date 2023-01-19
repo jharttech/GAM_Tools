@@ -9,10 +9,10 @@ from helper_tools import misc
 class Setup:
     def __init__(self):
         self.staff_data = subprocess.Popen(
-            ["touch", "../needed_files/list_all_staff_data.csv"]
+            ["touch", "../needed_files/list_staff_data.csv"]
         )
         self.staff_data.wait()
-        self.student_data = subprocess.Popen(["touch", "../list_all_student_data.csv"])
+        self.student_data = subprocess.Popen(["touch", "../list_student_data.csv"])
         self.student_data.wait()
 
 
@@ -44,15 +44,14 @@ class Account_type:
 
 class Get_User_Data:
     def __init__(self, account_type, org_units,selected_ou):
-        self.selected_ou = selected_ou
         self.account_type = account_type
         self.org_units = org_units
-        self.gather_data()
+        self.gather_data(selected_ou)
 
-    def gather_data(self):
+    def gather_data(self,selected_ou):
         if str(self.account_type) == "student":
             with open(
-                "needed_files/list_all_student_data.csv", mode="w"
+                "needed_files/list_student_data.csv", mode="w"
             ) as needed_file:
                 gather = subprocess.Popen(
                     [
@@ -67,7 +66,7 @@ class Get_User_Data:
                 )
                 gather.wait()
         elif str(self.account_type) == "staff":
-            with open("needed_files/list_all_staff_data.csv", mode="w") as needed_file:
+            with open("needed_files/list_staff_data.csv", mode="w") as needed_file:
                 gather = subprocess.Popen(
                     [
                         "gam",
@@ -80,7 +79,7 @@ class Get_User_Data:
                     stdout=needed_file,
                 )
                 gather.wait()
-        return
+        return selected_ou
 
     @classmethod
     def get(cls,account_type,org_units):
@@ -99,7 +98,7 @@ class Get_User_Data:
 # Data that is being worked with
 class Stage_csv:
     # Set inital class variables
-    def __init__(self, account_type):
+    def __init__(self, account_type,selected_ou):
         self.g_headers = [
             "primaryEmail",
             "name.givenName",
@@ -113,12 +112,12 @@ class Stage_csv:
 
         # Set input file, output file, and notes variables based on the type of data being worked with
         if self.account_type == "staff":
-            self.i_filename = "list_all_staff_data.csv"
-            self.o_filename = "full_staff_data.csv"
+            self.i_filename = "list_staff_data.csv"
+            self.o_filename = selected_ou + "_staff_data.csv"
             self.notes = "EMPLOYEE"
         elif self.account_type == "student":
-            self.i_filename = "list_all_student_data.csv"
-            self.o_filename = "full_student_data.csv"
+            self.i_filename = "list_student_data.csv"
+            self.o_filename = selected_ou + "_student_data.csv"
             self.notes = "Initial Import"
         else:
             raise ValueError("Invalid account type!")
@@ -310,8 +309,8 @@ def main():
     account_type = Account_type.get()
     campus_OUs = user_account_tools.create_account.Campus_OUs().ou_dict(account_type)
     misc.Dict_Print(campus_OUs)
-    Get_User_Data(None, None, None).get(account_type,campus_OUs)
-    staged = Stage_csv(account_type).stage()
+    selected_ou = Get_User_Data(None, None, None).get(account_type,campus_OUs)
+    staged = Stage_csv(account_type,selected_ou).stage()
     Compose(staged)
     move_file(staged)
 
