@@ -52,7 +52,6 @@ class Get_User_Data:
         self.gather_data(self.selected_ou)
 
     def gather_data(self,selected_ou):
-        pause = input("Made it and  " + str(selected_ou))
         if str(self.account_type) == "student":
             with open(
                 "needed_files/list_student_data.csv", mode="w"
@@ -247,7 +246,7 @@ def move_file(staged_data):
         return (
             "All "
             + staged_data[2]
-            + " has been compiled into ..ChromebookCheckoutTool/"
+            + " has been compiled into ..GAM_Tools/"
             + destination
         )
 
