@@ -69,7 +69,7 @@ class Wanted_Device_Info:
                 print("Not a valid Directory API ID!!")
             else:
                 break
-        
+
         # Print the user_choice_dict dictionary to screen
         misc.Dict_Print(user_choice_dict)
 
