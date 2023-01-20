@@ -1,11 +1,8 @@
-import sys
 import subprocess
 import re
 import csv
 import datetime
 from helper_tools import user_data, misc
-
-
 
 
 # The Campus_OUs class gathers the campus OU's and puts them into a dictionary with numeric keys
@@ -26,8 +23,8 @@ class Campus_OUs:
 
         self.org_unit_dict = {}
 
-        with open("needed_files/org_units", mode = "w") as write_file:
-            data_file = subprocess.Popen(["gam","print","orgs"], stdout=write_file)
+        with open("needed_files/org_units", mode="w") as write_file:
+            data_file = subprocess.Popen(["gam", "print", "orgs"], stdout=write_file)
             data_file.wait()
 
         with open("needed_files/org_units", mode="r") as self.csv_file_read:
@@ -82,7 +79,11 @@ class Assign_OU:
             if str(choice) not in ou_dict:
                 # If user input was not in the numeric keys, prompt them to enter a number
                 # Between 1 and the length of the dictionary
-                print("Invalid entry, please try again! (Enter 1-" + str(len(ou_dict)) + ")")
+                print(
+                    "Invalid entry, please try again! (Enter 1-"
+                    + str(len(ou_dict))
+                    + ")"
+                )
             else:
                 ou = ou_dict.get(choice)
                 return cls(ou)
@@ -98,8 +99,8 @@ class Campus_groups:
     def groups_dict(self):
         self.group_dict = {}
         # Open the group_data file for reading
-        with open("needed_files/groups", mode = "w") as write_file:
-            data_file = subprocess.Popen(["gam","print","groups"], stdout=write_file)
+        with open("needed_files/groups", mode="w") as write_file:
+            data_file = subprocess.Popen(["gam", "print", "groups"], stdout=write_file)
             data_file.wait()
 
         with open("needed_files/groups", mode="r") as self.csv_file_read:
@@ -157,9 +158,15 @@ class Assign_groups:
                 """\nPlease enter the numbers of the groups
     the user will need be a member of: (Comma seperated: ex. 1,2,3)\n"""
             )
-            group_wanted = group_wanted.replace(" ","")
-            if (str(group_wanted) not in campus_groups) and (str(group_wanted) != str("")):
-                print("Invalid entry, please try again! (Enter 1-" + str(len(campus_groups)) + ")")
+            group_wanted = group_wanted.replace(" ", "")
+            if (str(group_wanted) not in campus_groups) and (
+                str(group_wanted) != str("")
+            ):
+                print(
+                    "Invalid entry, please try again! (Enter 1-"
+                    + str(len(campus_groups))
+                    + ")"
+                )
             elif str(group_wanted) != str(""):
                 group_wanted = group_wanted.split(",")
                 for i in range(0, len(group_wanted)):
@@ -216,7 +223,9 @@ class Create_Account:
             self.wanted_ou = self.wanted_ou.replace("&", "\&")
         # Set the paramaters wanted for the sed command
         self.sed_params = "s,$,:" + self.wanted_ou + ","
-        self.temp_file = str(self.account_type) + "/" + "temp_" + str(self.account_type) + ".txt"
+        self.temp_file = (
+            str(self.account_type) + "/" + "temp_" + str(self.account_type) + ".txt"
+        )
         self.awk_file = str(self.account_type) + "/" + str(self.account_type) + ".txt"
         subprocess.Popen(["touch", self.temp_file], stdout=subprocess.PIPE)
         # Open the file with vim to add the desired account lines
@@ -298,21 +307,21 @@ def log_file(account_type):
     filepath = account_type + "/" + account_type + ".txt"
     x = datetime.datetime.now()
     log_file_name = (
-        "logs/" + account_type + "-accounts" + "-" + str(x.year) + str(x.month) + str(x.day) + str(x.hour) + str(x.minute) + str(x.second)
+        "logs/"
+        + account_type
+        + "-accounts"
+        + "-"
+        + str(x.year)
+        + str(x.month)
+        + str(x.day)
+        + str(x.hour)
+        + str(x.minute)
+        + str(x.second)
     )
     create_log = subprocess.Popen(
         ["cp", filepath, log_file_name], stdout=subprocess.PIPE
     )
     create_log.wait()
-
-
-# The dict_print function simply prints dictionaries in a nice format
-def dict_print(data):
-    print("\n")
-    data_list = list(map(int,data))
-    data_list = sorted(data_list)
-    for i in range(0,len(data)):
-        print(str(data_list[i]) + " : " + data.get(str(data_list[i])))
 
 
 def main():
