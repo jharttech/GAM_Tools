@@ -24,16 +24,16 @@ class Dict_Print:
 
 
 class Setup:
-    def __init__(self, account_type):
+    def __init__(self):
         self.account_types = ["staff","student"]
         # Create a directory with the account type the user chose
         for i in range(0,len(self.account_types) -1):
             subprocess.Popen(["mkdir", self.account_types[i]], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             # Assign the new file and path to a variable
             #n_file = f"{account_type}/{account_type}.txt"
-            n_file = str(self.account_types[i]) + "/" + str(self.account_types[i]) + ".txt"
+            self.n_file = str(self.account_types[i]) + "/" + str(self.account_types[i]) + ".txt"
             # Create the empty file
-            subprocess.Popen(["touch", n_file], stdout=subprocess.DEVNULL)
+            subprocess.Popen(["touch", self.n_file], stdout=subprocess.DEVNULL)
         subprocess.Popen(["mkdir", "logs"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
