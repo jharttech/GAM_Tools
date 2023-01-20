@@ -318,7 +318,6 @@ def dict_print(data):
 def main():
     # Clear the screen
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
-    print("Welcome to the MG Create Account Tool\n")
     # Call the Account_type class from the user_script module
     account_type = user_data.Account_type.get()
     # Run the Campus_OUs class to get the OUs available in the campus and save the return to variable
@@ -350,7 +349,7 @@ def main():
         # Restart this tool
         main()
     else:
-        sys.exit("Thank you!  -Jhart")
+        misc.exit_message()
 
 
 if __name__ == "__main__":
