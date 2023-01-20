@@ -6,15 +6,6 @@ import user_account_tools.create_account
 from helper_tools import misc
 
 
-class Setup:
-    def __init__(self):
-        self.staff_data = subprocess.Popen(
-            ["touch", "needed_files/list_staff_data.csv"]
-        )
-        self.staff_data.wait()
-        self.student_data = subprocess.Popen(["touch", "needed_files/list_student_data.csv"])
-        self.student_data.wait()
-
 
 # The Account_type class simply asks the user whether the user wants to use
 # Staff data or student data and returns the user input as a string.
