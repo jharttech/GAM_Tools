@@ -1,5 +1,4 @@
 import sys
-import subprocess
 import csv
 from datetime import date
 from helper_tools import misc, device_data
@@ -112,13 +111,15 @@ class Stage_CSV:
                             # Append the temp_row to the lines list
                             self.lines.append(self.temp_row)
                     except:
-                        sys.exit(f"Error getting needed fields for csv row")
+                        print("Error getting needed fields for csv row")
+                        misc.exit_message()
 
         # If there is 1 or more lines then return the lines
         if len(self.lines) >= 1:
             return [self.lines, self.o_filename]
         else:
-            sys.exit(f"Error: no data to stage!")
+            print("Error: no data to stage!")
+            misc.exit_message()
 
 
 # Define the main function
