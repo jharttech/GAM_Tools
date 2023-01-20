@@ -27,7 +27,7 @@ class Setup:
     def __init__(self):
         self.account_types = ["staff","student"]
         # Create a directory with the account type the user chose
-        for i in range(0,len(self.account_types) -1):
+        for i in range(0,len(self.account_types)):
             subprocess.Popen(["mkdir", self.account_types[i]], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
             # Assign the new file and path to a variable
             #n_file = f"{account_type}/{account_type}.txt"
