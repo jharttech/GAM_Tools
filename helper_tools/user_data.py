@@ -256,7 +256,6 @@ def move_file(staged_data):
 
 # Main function in case this script is called independently of the main create_account.py program
 def main():
-    Setup()
     account_type = Account_type.get()
     campus_OUs = user_account_tools.create_account.Campus_OUs().ou_dict(account_type)
     misc.Dict_Print(campus_OUs)
