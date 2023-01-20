@@ -7,19 +7,6 @@ from helper_tools import user_data, misc
 
 
 
-# The Setup Class creates the needed Directory and then creates an empyt file that will be needed
-class Setup:
-    def __init__(self, account_type):
-        # Create a directory with the account type the user chose
-        subprocess.Popen(["mkdir", str(account_type)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        subprocess.Popen(["mkdir", "logs"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        self.account_type = account_type
-        # Assign the new file and path to a variable
-        #n_file = f"{account_type}/{account_type}.txt"
-        n_file = str(account_type) + "/" + str(account_type) + ".txt"
-        # Create the empty file
-        subprocess.Popen(["touch", n_file], stdout=subprocess.DEVNULL)
-
 
 # The Campus_OUs class gathers the campus OU's and puts them into a dictionary with numeric keys
 class Campus_OUs:
@@ -334,8 +321,6 @@ def main():
     print("Welcome to the MG Create Account Tool\n")
     # Call the Account_type class from the user_script module
     account_type = user_data.Account_type.get()
-    # Run the Setup class
-    Setup(account_type)
     # Run the Campus_OUs class to get the OUs available in the campus and save the return to variable
     campus_OUs = Campus_OUs().ou_dict(account_type)
     # Call the dict_print function to print the desired dictionary
