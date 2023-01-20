@@ -45,7 +45,7 @@ def main():
         inactive_units.main()
     elif str(tool) == "move_a_single_user_to_a_new_Org_Unit":
         move_user.main()
-    elif str(tool) == "get_all_user_data_from_an_Org_Unit":
+    elif str(tool) == "get_user_data_from_an_Org_Unit":
         user_data.main()
         
 
