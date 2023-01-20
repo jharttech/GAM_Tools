@@ -38,7 +38,7 @@ def main():
 
     # Clear the terminal
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
-    print("\nWelcome to the MG Create Account Tool\n")
+    print("\nWelcome to the MG GAM tools\n")
     misc.Setup()
     misc.Dict_Print(tool_dict)
     tool = Tool.get(tool_dict)
