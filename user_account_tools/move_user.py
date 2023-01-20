@@ -6,7 +6,7 @@ from helper_tools import misc
 # Define the function to get the users current Org Unit
 def get_current_ou():
     # Ask what user to be moved
-    user_account = input(f"What user would you like to move? (Only username needed) ")
+    user_account = input("What user would you like to move? (Only username needed) ")
     # Get the wanted users full info
     user_info = subprocess.Popen(
         ["gam", "info", "user", user_account],
@@ -27,7 +27,7 @@ def get_current_ou():
 def move_user_ou(campus_OUs, user):
     while True:
         # Ask for what Org Unit the wanted user should be moved into
-        new_ou = input(f"\nWhat Org Unit would you like the user to be moved into? ")
+        new_ou = input("\nWhat Org Unit would you like the user to be moved into? ")
         # Check to make sure the input was valid
         if str(new_ou) not in campus_OUs:
             # If user input was not in the numeric keys, prompt them to enter a number
@@ -68,7 +68,7 @@ def main():
         ou = move_user_ou(campus_OUs, current_ou[1])
     except:
         # IF error is encountered restart the program
-        print(f"Unknown error.  Please try again")
+        print("Unknown error.  Please try again")
         main()
     print(f"\nUser has been moved to the {ou} OU.")
     misc.exit_message()
