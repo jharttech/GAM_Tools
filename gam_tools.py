@@ -47,6 +47,8 @@ def main():
         move_user.main()
     elif str(tool) == "get_user_data_from_an_Org_Unit":
         user_data.main()
+    elif str(tool) == "Exit":
+        misc.exit_message()
         
 
 
