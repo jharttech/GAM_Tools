@@ -234,51 +234,6 @@ class Compose:
                 self.full.writerow(self.lines[i])
 
 
-# The Sort_students class is used if the user wants to sort students based on a particular
-# Building.  Then creates a csv of the data for that building.
-class Sort_students:
-    def __init__(self, building, i_filename):
-        self.building = building
-        self.i_filename = i_filename
-
-    def sort(self):
-        # Open the needed csv in read mode
-        with open(self.i_filename, mode="r") as self.csv_file_read:
-            self.csv_reader = csv.reader(self.csv_file_read, delimiter=",")
-            self.line_count = 0
-            self.lines = []
-            # Get the number of columns in the csv
-            self.n_cols = len(next(self.csv_reader))
-            self.csv_file_read.seek(0)
-            for row in self.csv_reader:
-                # Keep count of the rows
-                if self.line_count == 0:
-                    for x in range(0, self.n_cols):
-                        # Keep track of what column has the header of Location
-                        if (str(row[x])) == "Location":
-                            column_name = str(row[x])
-                            self.num = x
-                    # Append the header row to the lines list
-                    self.lines.append(row)
-                    self.line_count += 1
-                # If the row is not the header and its building is the desired building then
-                # Start logic block
-                elif (self.line_count != 0) and (
-                    row[self.num].__contains__(str(self.building))
-                ):
-                    self.temp_building = row[self.num].split("/")
-                    self.temp_building = self.temp_building[len(self.temp_building) - 1]
-                    # Make sure the row does coincide with the desired building
-                    if str(self.temp_building) == str(self.building):
-                        self.lines.append(row)
-                else:
-                    continue
-        # Write the data to the desired location and file
-        with open("student/" + self.building + ".csv", mode="w") as self.csv_file_write:
-            for i in range(0, len(self.lines)):
-                self.o_file = csv.writer(self.csv_file_write, delimiter=",")
-                self.o_file.writerow(self.lines[i])
-
 
 # The move_file function moves the created files to where they need to go
 def move_file(staged_data):
