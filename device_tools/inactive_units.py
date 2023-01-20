@@ -118,7 +118,8 @@ class Stage_CSV:
         if len(self.lines) >= 1:
             return [self.lines, self.o_filename]
         else:
-            sys.exit("Error: no data to stage!")
+            print("Error: no data to stage!")
+            misc.exit_message()
 
 
 # Define the main function
