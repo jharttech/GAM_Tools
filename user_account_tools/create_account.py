@@ -1,22 +1,8 @@
-import sys
 import subprocess
 import re
 import csv
 import datetime
 from helper_tools import user_data, misc
-
-
-# The Setup Class creates the needed Directory and then creates an empyt file that will be needed
-class Setup:
-    def __init__(self, account_type):
-        # Create a directory with the account type the user chose
-        subprocess.Popen(["mkdir", str(account_type)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        subprocess.Popen(["mkdir", "logs"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        self.account_type = account_type
-        # Assign the new file and path to a variable
-        n_file = f"{account_type}/{account_type}.txt"
-        # Create the empty file
-        subprocess.Popen(["touch", n_file], stdout=subprocess.DEVNULL)
 
 
 # The Campus_OUs class gathers the campus OU's and puts them into a dictionary with numeric keys
@@ -37,11 +23,11 @@ class Campus_OUs:
 
         self.org_unit_dict = {}
 
-        with open(f"needed_files/org_units", mode="w") as write_file:
+        with open("needed_files/org_units", mode="w") as write_file:
             data_file = subprocess.Popen(["gam", "print", "orgs"], stdout=write_file)
             data_file.wait()
 
-        with open(f"needed_files/org_units", mode="r") as self.csv_file_read:
+        with open("needed_files/org_units", mode="r") as self.csv_file_read:
             self.read_file = csv.reader(self.csv_file_read, delimiter=",")
             # Read the number of columns
             self.n_col = len(next(self.read_file))
@@ -88,12 +74,14 @@ class Assign_OU:
     def get(cls, ou_dict):
         # Create a loop to help with invalid inputs
         while True:
-            choice = input(f"Please select the desired Org Unit: ")
+            choice = input("Please select the desired Org Unit: ")
             # Check to see if the input matches any of the keys
             if str(choice) not in ou_dict:
                 # If user input was not in the numeric keys, prompt them to enter a number
                 # Between 1 and the length of the dictionary
-                print(f"Invalid entry, please try again! (Enter 1-{len(ou_dict)})")
+                print(
+                    f"Invalid entry, please try again! (Enter 1-{str(len(ou_dict))})"
+                )
             else:
                 ou = ou_dict.get(choice)
                 return cls(ou)
@@ -109,11 +97,11 @@ class Campus_groups:
     def groups_dict(self):
         self.group_dict = {}
         # Open the group_data file for reading
-        with open(f"needed_files/groups", mode="w") as write_file:
+        with open("needed_files/groups", mode="w") as write_file:
             data_file = subprocess.Popen(["gam", "print", "groups"], stdout=write_file)
             data_file.wait()
 
-        with open(f"needed_files/groups", mode="r") as self.csv_file_read:
+        with open("needed_files/groups", mode="r") as self.csv_file_read:
             self.read_file = csv.reader(self.csv_file_read, delimiter=",")
             # Read the number of columns
             self.n_col = len(next(self.read_file))
@@ -168,8 +156,13 @@ class Assign_groups:
                 """\nPlease enter the numbers of the groups
     the user will need be a member of: (Comma seperated: ex. 1,2,3)\n"""
             )
-            if (str(group_wanted) not in campus_groups) and (str(group_wanted) != str("")):
-                print(f"Invalid entry, please try again! (Enter 1-{str(len(campus_groups))})")
+            group_wanted = group_wanted.replace(" ", "")
+            if (str(group_wanted) not in campus_groups) and (
+                str(group_wanted) != str("")
+            ):
+                print(
+                    f"Invalid entry, please try again! (Enter 1-{str(len(campus_groups))})"
+                )
             elif str(group_wanted) != str(""):
                 group_wanted = group_wanted.split(",")
                 for i in range(0, len(group_wanted)):
@@ -225,8 +218,10 @@ class Create_Account:
             # If an ampersand is found in the org unit, escape it
             self.wanted_ou = self.wanted_ou.replace("&", "\&")
         # Set the paramaters wanted for the sed command
-        self.sed_params = f"s,$,:{self.wanted_ou},"
-        self.temp_file = f"{str(self.account_type)}/temp_{str(self.account_type)}.txt"
+        self.sed_params = "s,$,:" + self.wanted_ou + ","
+        self.temp_file = (
+            f"{str(self.account_type)}/temp_{str(self.account_type)}.txt"
+        )
         self.awk_file = f"{str(self.account_type)}/{str(self.account_type)}.txt"
         subprocess.Popen(["touch", self.temp_file], stdout=subprocess.PIPE)
         # Open the file with vim to add the desired account lines
@@ -274,9 +269,9 @@ class Create_Account:
         print(self.gam_command)
 
         while True:
-            yn = input(f"Does the above command look correct? y/n ").lower()
+            yn = input("Does the above command look correct? y/n ").lower()
             if not re.search(r"^(y|n)$", yn):
-                print(f"Invalid response please enter 'y' or 'n'")
+                print("Invalid response please enter 'y' or 'n'")
             else:
                 break
 
@@ -307,30 +302,20 @@ def log_file(account_type):
     account_type = str(account_type)
     filepath = f"{account_type}/{account_type}.txt"
     x = datetime.datetime.now()
-    log_file_name = f"logs/{account_type}-accounts-{str(x.year)}{str(x.month)}{str(x.day)}{str(x.hour)}{str(x.minute)}{str(x.second)}"
+    log_file_name = (
+        f"logs/{account_type}-accounts-{str(x.year)}{str(x.month)}{str(x.day)}{str(x.hour)}{str(x.minute)}{str(x.second)}"
+    )
     create_log = subprocess.Popen(
         ["cp", filepath, log_file_name], stdout=subprocess.PIPE
     )
     create_log.wait()
 
 
-# The dict_print function simply prints dictionaries in a nice format
-def dict_print(data):
-    print("\n")
-    data_list = list(map(int, data))
-    data_list = sorted(data_list)
-    for i in range(0, len(data)):
-        print(f"{str(data_list[i])} : {data.get(str(data_list[i]))}")
-
-
 def main():
     # Clear the screen
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
-    print(f"Welcome to the MG Create Account Tool\n")
     # Call the Account_type class from the user_script module
     account_type = user_data.Account_type.get()
-    # Run the Setup class
-    Setup(account_type)
     # Run the Campus_OUs class to get the OUs available in the campus and save the return to variable
     campus_OUs = Campus_OUs().ou_dict(account_type)
     # Call the dict_print function to print the desired dictionary
@@ -350,17 +335,17 @@ def main():
     while True:
         # Check if user wants to perform more actions and if so, restart this tool
         restart = input(
-            f"Account creations and group additions sucessfull. Would you like to create more accounts? y/n "
+            "Account creations and group additions sucessfull. Would you like to create more accounts? y/n "
         ).lower()
         if not re.search(r"^(y|n)$", restart):
-            print(f"Invalid response please enter 'y' or 'n'")
+            print("Invalid response please enter 'y' or 'n'")
         else:
             break
     if str(restart) == "y":
         # Restart this tool
         main()
     else:
-        sys.exit("Thank you!  -Jhart")
+        misc.exit_message()
 
 
 if __name__ == "__main__":
