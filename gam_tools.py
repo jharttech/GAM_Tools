@@ -1,36 +1,45 @@
 import subprocess
 from user_account_tools import create_account, move_user
 from helper_tools import misc, user_data
-from device_tools import find_units_low_on_space, inactive_units, find_device_info_by_uuid
+from device_tools import (
+    find_units_low_on_space,
+    inactive_units,
+    find_device_info_by_uuid,
+)
 
 
+# Create Tool class
 class Tool:
     def __init__(self, tool):
         self.tool = tool
-        
+
     def __str__(self):
         return self.tool
-        
+
     @classmethod
     def get(cls, tool_dict):
+        # Get user input on what tool they want to use
         dict_num = input("\nWhat tool would you like to utilize?\n")
         tool = tool_dict.get(dict_num)
         return cls(tool)
 
 
 def main():
+    # Define tool dictionary
     tool_dict = {
-        "1":"create_account",
-        "2":"find_device_info_by_uuid",
-        "3":"find_units_low_on_space",
-        "4":"find_inactive_units",
-        "5":"move_a_single_user_to_a_new_Org_Unit",
-        "6":"get_all_user_data_from_an_Org_Unit",
-        "7":"Exit"
+        "1": "create_account",
+        "2": "find_device_info_by_uuid",
+        "3": "find_units_low_on_space",
+        "4": "find_inactive_units",
+        "5": "move_a_single_user_to_a_new_Org_Unit",
+        "6": "get_user_data_from_an_Org_Unit",
+        "7": "Exit",
     }
 
+    # Clear the terminal
     subprocess.Popen(["clear"], stdout=subprocess.PIPE)
-    print("Welcome to the MG Create Account Tool\n")
+    print("\nWelcome to the MG Create Account Tool\n")
+    misc.Setup()
     misc.Dict_Print(tool_dict)
     tool = Tool.get(tool_dict)
     # Change to case in the future since case switch exists Python >= 3.10
@@ -44,9 +53,10 @@ def main():
         inactive_units.main()
     elif str(tool) == "move_a_single_user_to_a_new_Org_Unit":
         move_user.main()
-    elif str(tool) == "get_all_user_data_from_an_Org_Unit":
+    elif str(tool) == "get_user_data_from_an_Org_Unit":
         user_data.main()
-        
+    elif str(tool) == "Exit":
+        misc.exit_message()
 
 
 if __name__ == "__main__":
