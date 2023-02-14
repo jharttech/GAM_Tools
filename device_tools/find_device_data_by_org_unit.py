@@ -29,6 +29,7 @@ class Stage_CSV:
         #print(self.ou)
         self.i_filename = "needed_files/full_list_devices.csv"
         self.o_filename = "cart_device_data/" + str(self.ou)
+        subprocess.Popen(['touch','needed_files/' + self.o_filename],stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         self.g_headers = [
             "deviceId",
             "autoUpdateExpiration",
