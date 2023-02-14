@@ -50,6 +50,10 @@ class Setup:
             ["mkdir", "logs"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
 
+        with open("needed_files/org_units", mode="w") as write_file:
+            data_file = subprocess.Popen(["gam", "print", "orgs"], stdout=write_file)
+            data_file.wait()
+
 
 # Defind the exit_message function to be called any time the program is asked or wants to close.
 def exit_message():

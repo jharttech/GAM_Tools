@@ -23,10 +23,6 @@ class Campus_OUs:
 
         self.org_unit_dict = {}
 
-        with open("needed_files/org_units", mode="w") as write_file:
-            data_file = subprocess.Popen(["gam", "print", "orgs"], stdout=write_file)
-            data_file.wait()
-
         with open("needed_files/org_units", mode="r") as self.csv_file_read:
             self.read_file = csv.reader(self.csv_file_read, delimiter=",")
             # Read the number of columns
