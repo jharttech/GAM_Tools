@@ -28,7 +28,7 @@ class Stage_CSV:
 
 def main():
     device_OUs = misc.Campus_OUs().ou_dict(account_type)
-    misc.Dict_print(device_OUs)
+    misc.Dict_Print(device_OUs)
 
 
 
