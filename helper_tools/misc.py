@@ -49,6 +49,7 @@ class Setup:
         subprocess.Popen(
             ["mkdir", "logs"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
+        subprocess.Popen(["mkdir","cart_device_data"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
         with open("needed_files/org_units", mode="w") as write_file:
             data_file = subprocess.Popen(["gam", "print", "orgs"], stdout=write_file)
