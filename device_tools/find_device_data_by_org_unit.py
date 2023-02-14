@@ -28,7 +28,7 @@ class Stage_CSV:
         self.ou = self.ou[len(self.ou)-1]
         #print(self.ou)
         self.i_filename = "needed_files/full_list_devices.csv"
-        self.o_filename = "needed_files/" + str(self.ou) + ".csv"
+        self.o_filename = str(self.ou) + ".csv"
         self.g_headers = [
             "deviceId",
             "autoUpdateExpiration",
