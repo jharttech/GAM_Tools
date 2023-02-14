@@ -1,10 +1,10 @@
 import subprocess
-from user_account_tools import (create_account, move_user)
-from helper_tools import (misc, user_data, device_data)
+from user_account_tools import create_account, move_user
+from helper_tools import misc, user_data, device_data
 from device_tools import (
     find_units_low_on_space,
     inactive_units,
-    find_device_info_by_uuid
+    find_device_info_by_uuid,
 )
 
 
