@@ -67,8 +67,10 @@ class Campus_OUs:
 
         if str(self.account_type) == "staff":
             self.ou_type = "Employees"
-        else:
+        elif str(self.account_type) == "student":
             self.ou_type = "Students"
+        elif str(self.account_type) == "Chromebooks":
+            self.ou_type = "Chromebooks"
 
         self.org_unit_dict = {}
 
