@@ -62,8 +62,9 @@ class Stage_CSV:
                     self.line_count += 1
                 else:
                     #try:
-                        if len(self.header_to_number.get('serialNumber')) > 14:
-                            temp_asset_tag = list(self.header_to_number.get('serialNumber'))
+                        self.asset_tag = self.header_to_number.get('serialNumber')
+                        if len(self.asset_tag) > 14:
+                            temp_asset_tag = list(self.asset_tag)
                             while len(temp_asset_tag) > 14:
                                 temp_asset_tag.remove(temp_asset_tag[0])
                             self.asset_tag = ''.join(temp_asset_tag)
