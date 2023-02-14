@@ -67,6 +67,8 @@ class Stage_CSV:
                             while len(temp_asset_tag) > 14:
                                 temp_asset_tag.remove(temp_asset_tag[0])
                             self.asset_tag = ''.join(temp_asset_tag)
+                        else:
+                            self.asset_tag = row[self.header_to_number.get("serialNumber","Error getting header number for serialNumber")]
                         self.temp_row = [
                             row[
                                 self.header_to_number.get("deviceId","Error getting header number for deviceId")
