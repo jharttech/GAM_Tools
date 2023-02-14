@@ -1,5 +1,6 @@
 import subprocess
 
+
 # Define Full_Device_Data Class
 class Full_Device_Data:
     def __init__(self):
