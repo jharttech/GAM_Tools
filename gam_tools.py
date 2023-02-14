@@ -1,10 +1,10 @@
 import subprocess
-from user_account_tools import create_account, move_user
-from helper_tools import misc, user_data
+from user_account_tools import (create_account, move_user)
+from helper_tools import (misc, user_data, device_data)
 from device_tools import (
     find_units_low_on_space,
     inactive_units,
-    find_device_info_by_uuid,
+    find_device_info_by_uuid
 )
 
 
@@ -31,9 +31,10 @@ def main():
         "2": "find_device_info_by_uuid",
         "3": "find_units_low_on_space",
         "4": "find_inactive_units",
-        "5": "move_a_single_user_to_a_new_Org_Unit",
-        "6": "get_user_data_from_an_Org_Unit",
-        "7": "Exit",
+        "5": "find_device_data_by_org_unit",
+        "6": "move_a_single_user_to_a_new_Org_Unit",
+        "7": "get_user_data_from_an_Org_Unit",
+        "8": "Exit",
     }
 
     # Clear the terminal
@@ -51,6 +52,8 @@ def main():
         find_units_low_on_space.main()
     elif str(tool) == "find_inactive_units":
         inactive_units.main()
+    elif str(tool) == "find_device_data_by_org_unit":
+        device_data.main()
     elif str(tool) == "move_a_single_user_to_a_new_Org_Unit":
         move_user.main()
     elif str(tool) == "get_user_data_from_an_Org_Unit":
