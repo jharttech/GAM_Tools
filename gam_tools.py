@@ -1,10 +1,11 @@
 import subprocess
 from user_account_tools import create_account, move_user
-from helper_tools import misc, user_data, device_data
+from helper_tools import misc, user_data
 from device_tools import (
     find_units_low_on_space,
     inactive_units,
     find_device_info_by_uuid,
+    find_device_data_by_org_unit
 )
 
 
@@ -53,7 +54,7 @@ def main():
     elif str(tool) == "find_inactive_units":
         inactive_units.main()
     elif str(tool) == "find_device_data_by_org_unit":
-        device_data.main()
+        find_device_data_by_org_unit.main()
     elif str(tool) == "move_a_single_user_to_a_new_Org_Unit":
         move_user.main()
     elif str(tool) == "get_user_data_from_an_Org_Unit":
