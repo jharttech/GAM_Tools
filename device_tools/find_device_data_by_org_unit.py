@@ -119,6 +119,8 @@ def main():
     #print("Choosen" + str(choosen_ou))
     stage_csv = Stage_CSV(str(choosen_ou)).stage()
     misc.Compose(stage_csv)
+    misc.move_file(stage_csv)
+
 
 
 

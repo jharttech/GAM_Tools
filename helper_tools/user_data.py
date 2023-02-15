@@ -239,35 +239,6 @@ class Compose:
                 self.full.writerow(self.lines[i])
 
 
-# The move_file function moves the created files to where they need to go
-def move_file(staged_data):
-    filename = "needed_files/" + staged_data[1]
-    destination = staged_data[2] + "/" + staged_data[1]
-
-    # Nested function to reduce reduntant code
-    def moved():
-        # Move the wanted file to its final destination
-        subprocess.Popen(["mv", filename, destination], stdout=subprocess.PIPE)
-        return (
-            "All "
-            + staged_data[2]
-            + " has been compiled into ..GAM_Tools/"
-            + destination
-        )
-
-    if staged_data[2] == "staff":
-        # Move the staff data file to its destination
-        print(moved())
-    elif staged_data[2] == "student":
-        # Write the file of all the student data and move it to its destination.
-        print(moved())
-    else:
-        sys.exit(
-            "No Data to work with or move, please check original data source needed_files/"
-            + staged_data[1]
-        )
-
-
 # Main function in case this script is called independently of the main create_account.py program
 def main():
     account_type = Account_type.get()
@@ -276,7 +247,7 @@ def main():
     selected_ou = Get_User_Data.get(account_type, campus_OUs)
     staged = Stage_csv(account_type, selected_ou).stage()
     Compose(staged)
-    move_file(staged)
+    misc.move_file(staged)
 
 
 # Check to see if script was called directly
