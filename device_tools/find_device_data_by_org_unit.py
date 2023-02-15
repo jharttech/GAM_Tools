@@ -24,6 +24,7 @@ class Choosen_OU:
 
 class Stage_CSV:
     def __init__(self,device_org_unit):
+        self.device_org_unit = device_org_unit
         self.ou = device_org_unit.split("/")
         self.ou = self.ou[len(self.ou)-1]
         #print(self.ou)
@@ -69,34 +70,36 @@ class Stage_CSV:
                             self.asset_tag = ''.join(temp_asset_tag)
                         else:
                             self.asset_tag = row[self.header_to_number.get("serialNumber","Error getting header number for serialNumber")]
-                        self.temp_row = [
-                            row[
-                                self.header_to_number.get("deviceId","Error getting header number for deviceId")
-                            ],
-                            row[
-                                self.header_to_number.get("autoUpdateExpiration","Error getting header number for autoUpdateExpiration")
-                            ],
-                            row[
-                                self.header_to_number.get("serialNumber","Error getting header number for serialNumber")
-                            ],
-                            row[
-                                self.header_to_number.get("macAddress","Error getting header number for macAddress")
-                            ],
-                            row[
-                                self.header_to_number.get("model","Error getting header number for model")
-                            ],
-                            self.notes,
-                            row[
-                                self.header_to_number.get("orgUnitPath","Error getting header number for orgUnitPath")
-                            ],
-                            row[
-                                self.header_to_number.get("model","Error getting header number for model")
-                            ],
-                            self.category,
-                            self.asset_tag
-                        ]
-                        self.lines.append(self.temp_row)
-                        self.line_count += 1
+                        
+                        if self.ou in row[self.header_to_number.get("orgUnitPath")]:
+                            self.temp_row = [
+                                row[
+                                    self.header_to_number.get("deviceId","Error getting header number for deviceId")
+                                ],
+                                row[
+                                    self.header_to_number.get("autoUpdateExpiration","Error getting header number for autoUpdateExpiration")
+                                ],
+                                row[
+                                    self.header_to_number.get("serialNumber","Error getting header number for serialNumber")
+                                ],
+                                row[
+                                    self.header_to_number.get("macAddress","Error getting header number for macAddress")
+                                ],
+                                row[
+                                    self.header_to_number.get("model","Error getting header number for model")
+                                ],
+                                self.notes,
+                                row[
+                                    self.header_to_number.get("orgUnitPath","Error getting header number for orgUnitPath")
+                                ],
+                                row[
+                                    self.header_to_number.get("model","Error getting header number for model")
+                                ],
+                                self.category,
+                                self.asset_tag
+                            ]
+                            self.lines.append(self.temp_row)
+                            self.line_count += 1
                     #except:
                         #print("Error getting needed fields for csv row")
                         #misc.exit_message()
