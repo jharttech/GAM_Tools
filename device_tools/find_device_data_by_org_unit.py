@@ -1,13 +1,14 @@
 import subprocess
 import csv
-from helper_tools import (device_data, misc)
+from helper_tools import device_data, misc
 
 account_type = "Chromebooks"
 
+
 class Choosen_OU:
-    def __init__(self,ou):
+    def __init__(self, ou):
         self.ou = ou
-    
+
     def __str__(self):
         return self.ou
 
@@ -16,18 +17,22 @@ class Choosen_OU:
         while True:
             choice = input("\nPlease select the desired Org Unit: ")
             if str(choice) not in ou_dict:
-                print("Invalid entry, please try again! (Enter 1-" + str(len(ou_dict)) + ")")
+                print(
+                    "Invalid entry, please try again! (Enter 1-"
+                    + str(len(ou_dict))
+                    + ")"
+                )
             else:
                 ou = ou_dict.get(choice)
                 return cls(ou)
 
 
 class Stage_CSV:
-    def __init__(self,device_org_unit):
+    def __init__(self, device_org_unit):
         self.device_org_unit = device_org_unit
         self.ou = device_org_unit.split("/")
-        self.ou = self.ou[len(self.ou)-1]
-        #print(self.ou)
+        self.ou = self.ou[len(self.ou) - 1]
+        # print(self.ou)
         self.i_filename = "needed_files/full_list_devices.csv"
         self.o_filename = str(self.ou) + ".csv"
         self.o_file_dir = "cart_device_data"
@@ -37,8 +42,8 @@ class Stage_CSV:
             "serialNumber",
             "macAddress",
             "model",
-            "orgUnitPath"
-            ]
+            "orgUnitPath",
+        ]
         self.header_to_number = {}
         self.lines = []
         self.temp_row = []
@@ -47,57 +52,98 @@ class Stage_CSV:
         self.category = "Chromebook"
 
     def stage(self):
-        with open(self.i_filename,mode="r") as self.csv_file_read:
-            self.csv_reader = csv.reader((line.replace("\0","") for line in self.csv_file_read),self.csv_file_read, delimiter=",")
+        with open(self.i_filename, mode="r") as self.csv_file_read:
+            self.csv_reader = csv.reader(
+                (line.replace("\0", "") for line in self.csv_file_read),
+                self.csv_file_read,
+                delimiter=",",
+            )
             self.n_col = len(next(self.csv_reader))
             self.csv_file_read.seek(0)
             self.line_count = 0
 
             for row in self.csv_reader:
                 if self.line_count == 0:
-                    for x in range(0,self.n_col):
+                    for x in range(0, self.n_col):
                         self.col_name = str(row[x])
                         if self.col_name in self.g_headers:
                             self.header_to_number.update({self.col_name: x})
-                    self.header_row = ['deviceId','autoUpdateExpiration','Serial Number','macAddress','Model Name','notes','Location','Manufacturer','Category','Asset Tag']
+                    self.header_row = [
+                        "deviceId",
+                        "autoUpdateExpiration",
+                        "Serial Number",
+                        "macAddress",
+                        "Model Name",
+                        "notes",
+                        "Location",
+                        "Manufacturer",
+                        "Category",
+                        "Asset Tag",
+                    ]
                     self.lines.append(self.header_row)
                     self.line_count += 1
                 else:
                     try:
-                        if len(row[self.header_to_number.get('serialNumber')]) > 14:
-                            temp_asset_tag = list(row[self.header_to_number.get('serialNumber')])
+                        if len(row[self.header_to_number.get("serialNumber")]) > 14:
+                            temp_asset_tag = list(
+                                row[self.header_to_number.get("serialNumber")]
+                            )
                             while len(temp_asset_tag) > 14:
                                 temp_asset_tag.remove(temp_asset_tag[0])
-                            self.asset_tag = ''.join(temp_asset_tag)
+                            self.asset_tag = "".join(temp_asset_tag)
                         else:
-                            self.asset_tag = row[self.header_to_number.get("serialNumber","Error getting header number for serialNumber")]
-                        
+                            self.asset_tag = row[
+                                self.header_to_number.get(
+                                    "serialNumber",
+                                    "Error getting header number for serialNumber",
+                                )
+                            ]
+
                         if self.ou in row[self.header_to_number.get("orgUnitPath")]:
                             self.temp_row = [
                                 row[
-                                    self.header_to_number.get("deviceId","Error getting header number for deviceId")
+                                    self.header_to_number.get(
+                                        "deviceId",
+                                        "Error getting header number for deviceId",
+                                    )
                                 ],
                                 row[
-                                    self.header_to_number.get("autoUpdateExpiration","Error getting header number for autoUpdateExpiration")
+                                    self.header_to_number.get(
+                                        "autoUpdateExpiration",
+                                        "Error getting header number for autoUpdateExpiration",
+                                    )
                                 ],
                                 row[
-                                    self.header_to_number.get("serialNumber","Error getting header number for serialNumber")
+                                    self.header_to_number.get(
+                                        "serialNumber",
+                                        "Error getting header number for serialNumber",
+                                    )
                                 ],
                                 row[
-                                    self.header_to_number.get("macAddress","Error getting header number for macAddress")
+                                    self.header_to_number.get(
+                                        "macAddress",
+                                        "Error getting header number for macAddress",
+                                    )
                                 ],
                                 row[
-                                    self.header_to_number.get("model","Error getting header number for model")
+                                    self.header_to_number.get(
+                                        "model", "Error getting header number for model"
+                                    )
                                 ],
                                 self.notes,
                                 row[
-                                    self.header_to_number.get("orgUnitPath","Error getting header number for orgUnitPath")
+                                    self.header_to_number.get(
+                                        "orgUnitPath",
+                                        "Error getting header number for orgUnitPath",
+                                    )
                                 ],
                                 row[
-                                    self.header_to_number.get("model","Error getting header number for model")
+                                    self.header_to_number.get(
+                                        "model", "Error getting header number for model"
+                                    )
                                 ],
                                 self.category,
-                                self.asset_tag
+                                self.asset_tag,
                             ]
                             self.lines.append(self.temp_row)
                             self.line_count += 1
@@ -116,12 +162,10 @@ def main():
     device_OUs = misc.Campus_OUs().ou_dict(account_type)
     misc.Dict_Print(device_OUs)
     choosen_ou = Choosen_OU(None).get(device_OUs)
-    #print("Choosen" + str(choosen_ou))
+    # print("Choosen" + str(choosen_ou))
     stage_csv = Stage_CSV(str(choosen_ou)).stage()
     misc.Compose(stage_csv)
     misc.move_file(stage_csv)
-
-
 
 
 if __name__ == "__main__":
