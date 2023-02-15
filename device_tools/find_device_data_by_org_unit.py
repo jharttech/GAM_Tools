@@ -62,7 +62,7 @@ class Stage_CSV:
                     self.lines.append(self.header_row)
                     self.line_count += 1
                 else:
-                    #try:
+                    try:
                         if len(row[self.header_to_number.get('serialNumber')]) > 14:
                             temp_asset_tag = list(row[self.header_to_number.get('serialNumber')])
                             while len(temp_asset_tag) > 14:
@@ -100,7 +100,7 @@ class Stage_CSV:
                             ]
                             self.lines.append(self.temp_row)
                             self.line_count += 1
-                    #except:
+                    except:
                         #print("Error getting needed fields for csv row")
                         #misc.exit_message()
             if len(self.lines) > 2:
