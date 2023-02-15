@@ -101,8 +101,8 @@ class Stage_CSV:
                             self.lines.append(self.temp_row)
                             self.line_count += 1
                     except:
-                        #print("Error getting needed fields for csv row")
-                        #misc.exit_message()
+                        print("Error getting needed fields for csv row")
+                        misc.exit_message()
             if len(self.lines) > 2:
                 return [self.lines, self.o_filename]
             else:
