@@ -111,6 +111,7 @@ class Stage_CSV:
 
 
 def main():
+    device_data.Full_Device_Data()
     device_OUs = misc.Campus_OUs().ou_dict(account_type)
     misc.Dict_Print(device_OUs)
     choosen_ou = Choosen_OU(None).get(device_OUs)
