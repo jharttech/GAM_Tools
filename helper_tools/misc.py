@@ -1,5 +1,6 @@
 import csv
 import subprocess
+import sys
 
 # The Compose class simply composes a file that can then be moved or reused for further
 # Data manipulation
@@ -106,6 +107,37 @@ class Campus_OUs:
                         )
 
         return self.org_unit_dict
+
+
+# The move_file function moves the created files to where they need to go
+def move_file(staged_data):
+    filename = "needed_files/" + staged_data[1]
+    destination = staged_data[2] + "/" + staged_data[1]
+
+    # Nested function to reduce reduntant code
+    def moved():
+        # Move the wanted file to its final destination
+        subprocess.Popen(["mv", filename, destination], stdout=subprocess.PIPE)
+        return (
+            "All "
+            + staged_data[2]
+            + " has been compiled into ..GAM_Tools/"
+            + destination
+        )
+
+    if staged_data[2] == "staff":
+        # Move the staff data file to its destination
+        print(moved())
+    elif staged_data[2] == "student":
+        # Write the file of all the student data and move it to its destination.
+        print(moved())
+    elif str(staged_data[2]).__contains__("cart_device_data"):
+        print(moved())
+    else:
+        sys.exit(
+            "No Data to work with or move, please check original data source needed_files/"
+            + staged_data[1]
+        )
 
 
 # Defind the exit_message function to be called any time the program is asked or wants to close.
