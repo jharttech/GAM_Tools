@@ -31,7 +31,7 @@ class Dict_Print:
 # Define the Setup class so when the tool starts it makes sure all needed directories and files exist
 class Setup:
     def __init__(self):
-        self.account_types = ["staff", "student"]
+        self.account_types = ["staff", "student", "cart_device_data"]
         # Create a directory with the account type the user chose
         for i in range(0, len(self.account_types)):
             subprocess.Popen(
@@ -49,7 +49,6 @@ class Setup:
         subprocess.Popen(
             ["mkdir", "logs"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
         )
-        subprocess.Popen(["mkdir","cart_device_data"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
         with open("needed_files/org_units", mode="w") as write_file:
             data_file = subprocess.Popen(["gam", "print", "orgs"], stdout=write_file)
