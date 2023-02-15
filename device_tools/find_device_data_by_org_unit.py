@@ -30,6 +30,7 @@ class Stage_CSV:
         #print(self.ou)
         self.i_filename = "needed_files/full_list_devices.csv"
         self.o_filename = str(self.ou) + ".csv"
+        self.o_file_dir = "cart_device_data"
         self.g_headers = [
             "deviceId",
             "autoUpdateExpiration",
@@ -104,7 +105,7 @@ class Stage_CSV:
                         print("Error getting needed fields for csv row")
                         misc.exit_message()
             if len(self.lines) > 2:
-                return [self.lines, self.o_filename]
+                return [self.lines, self.o_filename, self.o_file_dir]
             else:
                 print("\nError: No data to stage!!")
                 misc.exit_message()
