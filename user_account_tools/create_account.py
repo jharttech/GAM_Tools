@@ -5,34 +5,6 @@ import datetime
 from helper_tools import user_data, misc
 
 
-# The Assign_OU class askes the user which Org Unit they want to assign the new user(s) to.
-class Assign_OU:
-    def __init__(self, ou):
-        self.ou = ou
-
-    def __str__(self):
-        return self.ou
-
-    @classmethod
-    # Create the get class method to take the users input
-    def get(cls, ou_dict):
-        # Create a loop to help with invalid inputs
-        while True:
-            choice = input("Please select the desired Org Unit: ")
-            # Check to see if the input matches any of the keys
-            if str(choice) not in ou_dict:
-                # If user input was not in the numeric keys, prompt them to enter a number
-                # Between 1 and the length of the dictionary
-                print(
-                    "Invalid entry, please try again! (Enter 1-"
-                    + str(len(ou_dict))
-                    + ")"
-                )
-            else:
-                ou = ou_dict.get(choice)
-                return cls(ou)
-
-
 # The Campus_groups class poll GAM for the campus groups, then assignes them as values to a numeric key
 class Campus_groups:
     def __init__(self):
