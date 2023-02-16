@@ -226,27 +226,14 @@ class Stage_csv:
                 )
 
 
-# The Compose class simply composes a file that can then be moved or reused for further
-# Data manipulation
-class Compose:
-    def __init__(self, staged_data):
-        self.o_filename = staged_data[1]
-        self.lines = staged_data[0]
-        # Open file for writing
-        with open("needed_files/" + self.o_filename, mode="w") as self.csv_file:
-            for i in range(0, len(self.lines)):
-                self.full = csv.writer(self.csv_file, delimiter=",")
-                self.full.writerow(self.lines[i])
-
-
 # Main function in case this script is called independently of the main create_account.py program
 def main():
     account_type = Account_type.get()
     campus_OUs = user_account_tools.create_account.Campus_OUs().ou_dict(account_type)
     misc.Dict_Print(campus_OUs)
-    selected_ou = Get_User_Data.get(account_type, campus_OUs)
+    selected_ou = misc.Assign_OU(None).get(campus_OUs)
     staged = Stage_csv(account_type, selected_ou).stage()
-    Compose(staged)
+    misc.Compose(staged)
     misc.move_file(staged)
 
 
