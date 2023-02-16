@@ -15,7 +15,7 @@ class Account_type:
         self.a_type = self.dict.get(account)
 
         if self.a_type == "exit":
-            print("You have chosen to exit.")
+            print("\nYou have chosen to exit.")
             misc.exit_message()
 
     def __str__(self):
@@ -25,11 +25,11 @@ class Account_type:
     def get(cls):
         while True:
             account = input(
-                "Would you like to work with: \n1 : student\n2 : staff\n3 : exit\n"
+                "\nWould you like to work with: \n1 : student\n2 : staff\n3 : exit\n"
             )
             # Use regex to sanitize user input for validation
             if not re.search(r"^([1-3])$", account):
-                print("Please enter 1, 2, or 3")
+                print("\nPlease enter 1, 2, or 3")
             else:
                 return cls(account)
 
@@ -87,11 +87,11 @@ class Get_User_Data:
     @classmethod
     def get(cls, account_type, org_units):
         while True:
-            wanted_ou = input("Please enter which Org Unit you want user data from: ")
+            wanted_ou = input("\nPlease enter which Org Unit you want user data from: ")
             # Validate user input and if invalid ask again
             if str(wanted_ou) not in org_units:
                 print(
-                    "Invalid entry, please try again! (Enter 1-"
+                    "\nInvalid entry, please try again! (Enter 1-"
                     + str(len(org_units))
                     + ")"
                 )
@@ -137,7 +137,7 @@ class Stage_csv:
                 self.o_filename = "full_student_data.csv"
             self.notes = "Initial Import"
         else:
-            raise ValueError("Invalid account type!")
+            raise ValueError("\nInvalid account type!")
 
     # stage class method handles the reading of the input file and sorting the data into
     # a list of rows to be written to a file later
@@ -224,13 +224,13 @@ class Stage_csv:
                             ]
                             self.lines.append(self.temp_row)
                         except:
-                            sys.exit("Error getting needed fields for csv row")
+                            sys.exit("\nError getting needed fields for csv row")
 
             if len(self.lines) > 2:
                 return [self.lines, self.o_filename, self.account_type]
             else:
                 sys.exit(
-                    "Error: no " + self.account_type + " data to add. Exiting now..."
+                    "\nError: no " + self.account_type + " data to add. Exiting now..."
                 )
 
 
