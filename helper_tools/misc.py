@@ -121,13 +121,13 @@ class Assign_OU:
     def get(cls, ou_dict):
         # Create a loop to help with invalid inputs
         while True:
-            choice = input("Please select the desired Org Unit: ")
+            choice = input("\nPlease select the desired Org Unit: ")
             # Check to see if the input matches any of the keys
             if str(choice) not in ou_dict:
                 # If user input was not in the numeric keys, prompt them to enter a number
                 # Between 1 and the length of the dictionary
                 print(
-                    "Invalid entry, please try again! (Enter 1-"
+                    "\nInvalid entry, please try again! (Enter 1-"
                     + str(len(ou_dict))
                     + ")"
                 )
@@ -146,7 +146,7 @@ def move_file(staged_data):
         # Move the wanted file to its final destination
         subprocess.Popen(["mv", filename, destination], stdout=subprocess.PIPE)
         return (
-            "All "
+            "\nAll "
             + staged_data[2]
             + " has been compiled into ..GAM_Tools/"
             + destination
@@ -162,11 +162,11 @@ def move_file(staged_data):
         print(moved())
     else:
         sys.exit(
-            "No Data to work with or move, please check original data source needed_files/"
+            "\nNo Data to work with or move, please check original data source needed_files/"
             + staged_data[1]
         )
 
 
 # Defind the exit_message function to be called any time the program is asked or wants to close.
 def exit_message():
-    print("Terminating Program at this time.  Thank you! --JHart")
+    print("\nTerminating Program at this time.  Thank you! --JHart")
