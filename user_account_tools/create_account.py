@@ -250,7 +250,7 @@ def main():
     # Call the dict_print function to print the desired dictionary
     misc.Dict_Print(campus_OUs)
     # Run the Assign_OU class and assign the return to variable
-    OU = Assign_OU(None).get(campus_OUs)
+    OU = misc.Assign_OU(None).get(campus_OUs)
     # Run the Create_Account class to create the account
     Create_Account(account_type, OU)
     # Run the Campus_groups class to get available groups in the campus
