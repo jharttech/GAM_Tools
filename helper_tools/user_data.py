@@ -229,7 +229,7 @@ class Stage_csv:
 # Main function in case this script is called independently of the main create_account.py program
 def main():
     account_type = Account_type.get()
-    campus_OUs = user_account_tools.create_account.Campus_OUs().ou_dict(account_type)
+    campus_OUs = misc.Campus_OUs().ou_dict(account_type)
     misc.Dict_Print(campus_OUs)
     selected_ou = misc.Assign_OU(None).get(campus_OUs)
     staged = Stage_csv(account_type, selected_ou).stage()
