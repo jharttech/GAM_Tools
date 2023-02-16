@@ -124,14 +124,14 @@ class Stage_csv:
         # Set input file, output file, and notes variables based on the type of data being worked with
         if self.account_type == "staff":
             self.i_filename = "list_staff_data.csv"
-            if str(selected_ou) != "Employees":
+            if str(selected_ou) != "/Employees":
                 self.o_filename = str(self.selected_ou_name) + "_staff_data.csv"
             else:
                 self.o_filename = "full_staff_data.csv"
             self.notes = "EMPLOYEE"
         elif self.account_type == "student":
             self.i_filename = "list_student_data.csv"
-            if str(selected_ou) != "Students":
+            if str(selected_ou) != "/Students":
                 self.o_filename = str(self.selected_ou_name) + "_student_data.csv"
             else:
                 self.o_filename = "full_student_data.csv"
