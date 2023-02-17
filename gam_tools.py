@@ -5,7 +5,8 @@ from device_tools import (
     find_units_low_on_space,
     inactive_units,
     find_device_info_by_uuid,
-    find_device_data_by_org_unit
+    find_device_data_by_org_unit,
+    escalate_grade_to_new_building
 )
 
 
@@ -35,7 +36,8 @@ def main():
         "5": "find_device_data_by_org_unit",
         "6": "move_a_single_user_to_a_new_Org_Unit",
         "7": "get_user_data_from_an_Org_Unit",
-        "8": "Exit",
+        "8": "escalate_grade_to_new_building",
+        "9": "Exit",
     }
 
     # Clear the terminal
@@ -59,6 +61,8 @@ def main():
         move_user.main()
     elif str(tool) == "get_user_data_from_an_Org_Unit":
         user_data.main()
+    elif str(tool) == "escalate_grade_to_new_building":
+        escalate_grade_to_new_building.main()
     elif str(tool) == "Exit":
         misc.exit_message()
 
