@@ -5,8 +5,8 @@ from helper_tools import misc, user_data
 
 class Escalate_OU:
     def __init__(self,old_ou,new_ou):
-        self.old_ou = old_ou
-        self.new_ou = new_ou
+        self.old_ou = str(old_ou)
+        self.new_ou = str(new_ou)
 
         self.escalation(self.old_ou,self.new_ou)
 
