@@ -1,66 +1,41 @@
 import subprocess
 import re
 from helper_tools import misc, user_data
-
-
-class Grade_To_Escalate():
-    def __init__(self,building,grad_year):
-        self.building = building
-        self.grad_year = grad_year
-
-    def get_building(self):
-        return self.building
-    
-    def get_grad_year(self):
-        return self.grad_year
-
-    @classmethod
-    def get(cls):
-        options = {
-            "1":"MS to HS",
-            "2":"ES to MS"
-        }
-        misc.Dict_Print(options)
-        while True:
-            building = input("\nWhich building would you like to escalate? ")
-            if building not in options:
-                print("\nInvalid option, please select again!")
-            else:
-                building = options.get(building)
-                break
         
-        while True:
-            grad_year = input("\nPlease enter the graduation year desired to escalate: ")
-            if not re.search(r"^[1-9]{2}$", grad_year):
-                print("\nInvalid year, please use the 'YY' format.")
-            else:
-                break
 
-        grad_year = ("^"+grad_year)
-        
-        return cls(building,grad_year)
+class Escalate_OU:
+    def __init__(self,old_ou,new_ou):
+        self.old_ou = old_ou
+        self.new_ou = new_ou
 
+        self.escalation(self.old_ou,self.new_ou)
 
-class Escalate:
-    def __init__(self,building, grad_year):
-        self.awk_command = '{print $1}'
-        self.building = str(building).split(" ")
-        self.old_building = self.building[0]
-        self.new_building = self.building[2]
-        print("Old: " + self.old_building)
-        print("New: " + self.new_building)
-
-        
-    
-        
+    def escalation(self,old_ou,new_ou):
+        old_ou = str("'" + old_ou + "'")
+        escalate = subprocess.Popen(["gam","update","org",old_ou,"parent","/Students/" + new_ou,"inherit"],stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        escalate.communicate()
+        escalate.wait()
 
 
 def main():
-    account_type = user_data.Account_type.get()
-    info = Grade_To_Escalate(None,None).get()
-    building = info.get_building()
-    grad_year = info.get_grad_year()
-    Escalate(building,grad_year)
+    account_type = "student"
+    org_units = misc.Campus_OUs().ou_dict(account_type)
+    misc.Dict_Print(org_units)
+    old_ou = misc.Assign_OU(None).get(org_units)
+    print("\nNow going to ask you to select the new Parent Org Unit")
+    parent_OUs = {
+        "1":"MGHS",
+        "2":"MGMS"
+        }
+    misc.Dict_Print(parent_OUs)
+    new_ou = misc.Assign_OU(None).get(parent_OUs)
+    Escalate_OU(old_ou,new_ou)
+    misc.exit_message()
+
+    
+    
+
+
 
 
 
