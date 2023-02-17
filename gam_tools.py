@@ -1,12 +1,11 @@
 import subprocess
-from user_account_tools import create_account, move_user
+from user_account_tools import create_account, move_user, escalate_grade_to_new_building
 from helper_tools import misc, user_data
 from device_tools import (
     find_units_low_on_space,
     inactive_units,
     find_device_info_by_uuid,
     find_device_data_by_org_unit,
-    escalate_grade_to_new_building
 )
 
 
