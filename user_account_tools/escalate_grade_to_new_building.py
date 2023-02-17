@@ -31,7 +31,7 @@ class Grade_To_Escalate():
         
         while True:
             grad_year = input("\nPlease enter the graduation year desired to escalate: ")
-            if not re.search(r"^(1-9){2}(1-9){2}$", grad_year):
+            if not re.search(r"^(1-9){2}$", grad_year):
                 print("\nInvalid year, please use the 'YY' format.")
             else:
                 break
