@@ -8,7 +8,7 @@ class Escalate_OU:
         self.old_ou = str(old_ou)
         self.new_ou = str(new_ou)
 
-        self.escalation(self.old_ou,self.new_ou)
+        #self.escalation(self.old_ou,self.new_ou)
 
     def escalation(self,old_ou,new_ou):
         self.parent_ou = "/Students/" + new_ou
@@ -30,7 +30,7 @@ def main():
         }
     misc.Dict_Print(parent_OUs)
     new_ou = misc.Assign_OU(None).get(parent_OUs)
-    Escalate_OU(old_ou,new_ou)
+    Escalate_OU(None,None).escalation(old_ou,new_ou)
     misc.exit_message()
 
     
