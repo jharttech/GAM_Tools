@@ -13,7 +13,7 @@ class Escalate_OU:
     def escalation(self,old_ou,new_ou):
         self.parent_ou = "/Students/" + str(new_ou)
         self.old_ou = "'" + str(old_ou)+ "'"
-        pause = input("gam update org " + str(self.old_ou) + " parent " + str(self.parent_ou) + " inherit")
+        pause = input("gam update org " + self.old_ou + " parent " + self.parent_ou + " inherit")
         self.escalate = subprocess.Popen(
             [
                 "gam",
@@ -25,7 +25,7 @@ class Escalate_OU:
                 "inherit"
                 ]
         )
-        #escalate.communicate()
+        self.escalate.communicate()
         self.escalate.wait()
 
 
