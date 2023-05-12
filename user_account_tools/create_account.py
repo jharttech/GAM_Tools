@@ -66,31 +66,35 @@ class Assign_groups:
     # Create the get method so the user can input which groups are needed for the user
     def get(cls, campus_groups, account_type):
         assigned_groups = []
+        assign = False
 
         # Take user input of the keys for which groups are needed.
         ## NOTE strip out whitespace incase user inputs spaces and use regex to check input
-        while True:
+        while assign == False:
             group_wanted = input(
                 """\nPlease enter the numbers of the groups
     the user will need be a member of: (Comma seperated: ex. 1,2,3)\n"""
             )
             group_wanted = group_wanted.replace(" ", "")
-            if (str(group_wanted) not in campus_groups) and (
-                str(group_wanted) != str("")
-            ):
-                print(
-                    "Invalid entry, please try again! (Enter 1-"
-                    + str(len(campus_groups))
-                    + ")"
-                )
-            elif str(group_wanted) != str(""):
-                group_wanted = group_wanted.split(",")
-                for i in range(0, len(group_wanted)):
-                    # Append each needed group to the assigned groups list
-                    assigned_groups.append(campus_groups.get(group_wanted[i]))
-                break
-            else:
-                assigned_groups.append("NO GROUPS")
+            group_wanted = group_wanted.split(",")
+            for i in range(0, len(group_wanted)):
+                if group_wanted[0] != "":
+                    if str(group_wanted[i]) not in campus_groups:
+                        print(
+                            "Invalid entry, please try again! (Enter 1-"
+                            + str(len(campus_groups))
+                            + ")"
+                        )
+                        break
+                    else:
+                        # Append each needed group to the assigned groups list
+                        assigned_groups.append(campus_groups.get(group_wanted[i]))
+                elif group_wanted[0] == "":
+                    assigned_groups.append("NO GROUPS")
+                    break
+                else:
+                    break
+            if len(assigned_groups) == len(group_wanted):
                 break
 
         return cls(assigned_groups, account_type)
