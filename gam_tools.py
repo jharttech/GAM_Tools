@@ -6,6 +6,7 @@ from device_tools import (
     inactive_units,
     find_device_info_by_uuid,
     find_device_data_by_org_unit,
+    compile_deprovisioned_units,
 )
 
 
@@ -36,7 +37,8 @@ def main():
         "6": "move_a_single_user_to_a_new_Org_Unit",
         "7": "get_user_data_from_an_Org_Unit",
         "8": "escalate_grade_to_new_building",
-        "9": "Exit",
+        "9": "compile_deprovisioned_units",
+        "10": "Exit",
     }
 
     # Clear the terminal
@@ -62,6 +64,8 @@ def main():
         user_data.main()
     elif str(tool) == "escalate_grade_to_new_building":
         escalate_grade_to_new_building.main()
+    elif str(tool) == "compile_deprovisioned_units":
+        compile_deprovisioned_units.main()
     elif str(tool) == "Exit":
         misc.exit_message()
 
