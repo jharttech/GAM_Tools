@@ -212,6 +212,7 @@ class Create_Account:
                 self.run = subprocess.Popen(
                     ["sh"], stdin=self.holder.stdout, stdout=subprocess.PIPE
                 )
+                print(self.run.stdout.read().decode())
                 self.run.wait()
             except FileNotFoundError as e:
                 raise (e)
