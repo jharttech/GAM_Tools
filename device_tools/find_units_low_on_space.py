@@ -115,6 +115,7 @@ def main():
     device_data.Full_Device_Data()
     stage_csv = Stage_CSV().stage()
     misc.Compose(stage_csv)
+    print("The " + stage_csv[1] + " file has been created in the /needed_files directory.  Thank you!")
 
 
 if __name__ == "__main__":
