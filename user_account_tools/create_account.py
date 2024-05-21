@@ -182,7 +182,7 @@ class Create_Account:
             self.awk_line = '{print "gam create user "$1" firstname "$2" lastname "$3" password "$4" gal off org \'"$5"\' && sleep 2"}'
         elif str(self.account_type) == "staff":
             # Set gal to true for staff so they DO show up in the directory when creating an email
-            self.awk_line = '{print "gam create user "$1" firstname "$2" lastname "$3" password "$4" gal on org \'"$5"\' && sleep 2"}'
+            self.awk_line = '{print "gam create user "$1" firstname "$2" lastname "$3" password "$4" changepassword on gal on org \'"$5"\' && sleep 2"}'
 
         # Set dry run command for user to preview the command
         self.dry_run = subprocess.Popen(
