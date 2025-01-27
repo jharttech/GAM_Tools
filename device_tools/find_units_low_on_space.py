@@ -83,8 +83,23 @@ class Stage_CSV:
                                 )
                             ],
                         ]
+                         # Some older units will not report their disk space properly due to the way the partitions were created, this logic keeps them from being added
+                        if (str(self.temp_row[1]) or str(self.temp_row[2])) == "":
+                            continue
+                        # Create a percentage of disk space left and if it is less than or equal to 20 percent then add the device
+                        elif (
+                            int(self.temp_row[1]) / int(self.temp_row[2])
+                        ) <= float(0.20):
+                            self.temp_row.append(
+                                int(self.temp_row[1]) / int(self.temp_row[2])
+                            )
+                            self.lines.append(self.temp_row)
+                        else:
+                            continue
+                        ##################################STAFF UNITS LOW ON SPACE################################
                         # We do not want to wipe staff units so this logic keeps staff units from being added
-                        if "Staff" in str(self.temp_row[3]):
+                        # Comment out the following if else block to include Staff units in low on space list
+                        '''if "Staff" in str(self.temp_row[3]):
                             continue
                         else:
                             # Some older units will not report their disk space properly due to the way the partitions were created, this logic keeps them from being added
@@ -99,7 +114,7 @@ class Stage_CSV:
                                 )
                                 self.lines.append(self.temp_row)
                             else:
-                                continue
+                                continue'''
                     except:
                         print("Error getting needed fields for csv row")
                         misc.exit_message()
